@@ -40,7 +40,8 @@ Open a command prompt
 
 In any folder, enter a command following the template:
 
-``` jsdoc <path_to_file_1>.js <path_to_file_2>.js ...
+```
+jsdoc <path_to_file_1>.js <path_to_file_2>.js ...
 
 jsdoc ...............(replace with files that have documentation)
 ```
