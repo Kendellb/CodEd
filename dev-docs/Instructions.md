@@ -5,7 +5,8 @@ NodeJs https://nodejs.org/en I am using version 20.11
 
 First Clone the repository
 
-```git clone https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry.git```
+```git clone https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry.git
+```
 
 
 Open a Node.js command prompt (available in Windows start menu, or search for node) and run the following commands
