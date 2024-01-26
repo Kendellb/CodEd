@@ -6,4 +6,9 @@ Server holds the data about the users and supplies the client with the front end
 
 The server with also run the programs and send the output back to the user.
 
+## Existing packages
+
+CodeMirror:is a code editor component for the web
+
+https://codemirror.net/docs/
 
