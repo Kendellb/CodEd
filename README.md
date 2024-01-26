@@ -1,2 +1,11 @@
-# README file
-Click on `main` in the dropdown above in order to switch branch from `main` to `branch1`.  Then click on the edit (pencil) icon above and enter a somewhat detailed description of your project here.  Use [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) to format your description. When complete, click the `Commit Changes` button at the bottom of the edit window.
+# CodEd
+
+CodEd is a versatile platform designed for students to seamlessly complete coding assignments for their classes using an integrated online code editor. This project provides a user-friendly environment where students can work on assignments and submit their coding projects directly to their professors.
+
+## Features
+
+- **Assignment Completion:** Students can efficiently complete coding assignments using the intuitive online code editor provided by CodEd.
+
+- **Submission and Grading:** After finishing their assignments, students can submit their coding projects to the professor through CodEd. Professors have the ability to review and grade each student's code within the platform.
+
+- **Experimentation:** In addition to assignment submissions, CodEd allows students to experiment with code quickly through the web. This feature encourages exploration and hands-on learning.
