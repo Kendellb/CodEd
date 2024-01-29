@@ -37,6 +37,10 @@ Ejs:Embedded JavaScript templating.
 
 https://ejs.co/
 
+Browserfiy:Browserify lets you require('modules') in the browser by bundling up all of your dependencies.
+https://browserify.org/
+
+
 
 
 
