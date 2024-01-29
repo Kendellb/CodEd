@@ -2,6 +2,8 @@
 [Design-1.pdf](https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/files/14088356/Design-1.pdf)
 
 
+
+
 ## NodeJS Express
 
 Server Clinet
@@ -9,6 +11,14 @@ Server Clinet
 Server holds the data about the users and supplies the client with the front end to be able to code on the web.
 
 The server with also run the programs and send the output back to the user.
+
+The webapp will have a coding window where users can write and run code.
+
+The user is then able to save files to there account.
+
+A student is then able to send the file to a class that they are apart of.
+
+Instructors see all the submitted code files from students.
 
 ## Existing packages
 
