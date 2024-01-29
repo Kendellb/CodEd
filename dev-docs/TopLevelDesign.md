@@ -37,8 +37,8 @@ Ejs:Embedded JavaScript templating.
 
 https://ejs.co/
 
-Browserfiy:Browserify lets you require('modules') in the browser by bundling up all of your dependencies.
-https://browserify.org/
+Rollup:Compile small pieces of code into something larger and more complex
+https://rollupjs.org/
 
 
 
