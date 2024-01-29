@@ -20,6 +20,11 @@ A student is then able to send the file to a class that they are apart of.
 
 Instructors see all the submitted code files from students.
 
+A course contains instructors and students that are in the class.
+
+Instructors are able to create,modify, and delete courses.
+
+
 ## Existing packages
 
 CodeMirror:is a code editor component for the web
