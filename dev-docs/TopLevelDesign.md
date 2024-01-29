@@ -12,7 +12,7 @@ Server holds the data about the users and supplies the client with the front end
 
 The server with also run the programs and send the output back to the user.
 
-The webapp will have a coding window where users can write and run code.
+The webapp will have a coding window where users can write and run code. There will also be a place to see files that have been saved. 
 
 The user is then able to save files to there account.
 
