@@ -1,0 +1,33 @@
+{
+  "name": "coded",
+  "version": "1.0.0",
+  "description": "",
+  "main": "nts to seamlessly complete coding assignments for their classes using an integrated online code editor. This project provides a user-friendly environment where students can work on assignments and submit their coding projects directly to their professors.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry.git"
+  },
+  "author": "Kendell Barry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/issues"
+  },
+  "homepage": "https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  },
+  "dependencies": {
+    "codemirror": "^6.0.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "jade": "^0.29.0",
+    "morgan": "~1.9.1"
+  }
+}
