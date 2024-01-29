@@ -24,6 +24,8 @@ A course contains instructors and students that are in the class.
 
 Instructors are able to create,modify, and delete courses.
 
+There is also an admin that can add users modify users and remove users.
+
 
 ## Existing packages
 
