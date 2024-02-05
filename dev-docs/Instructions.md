@@ -22,6 +22,8 @@ npm install -g jsdoc
 
 -Open a Node.js command prompt
 
+-Execute `npm install` to install all required packages
+
 -Execute `npm start` to start the web server
 
 -Execute `npm fund` 

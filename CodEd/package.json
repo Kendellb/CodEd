@@ -5,7 +5,7 @@
   "main": "nts to seamlessly complete coding assignments for their classes using an integrated online code editor. This project provides a user-friendly environment where students can work on assignments and submit their coding projects directly to their professors.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/www && rollup -c public/javascripts/rollup.config.mjs public/javascripts/editor.mjs"
+    "start": "rollup -c public/javascripts/rollup.config.mjs public/javascripts/editor.mjs && node ./bin/www "
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
     "eslint": "^8.56.0"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.12.0",
     "@codemirror/basic-setup": "^0.20.0",
+    "@codemirror/commands": "^6.3.3",
     "@codemirror/lang-java": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "browserify": "^17.0.0",
