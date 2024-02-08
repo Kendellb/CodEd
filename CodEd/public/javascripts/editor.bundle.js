@@ -19714,6 +19714,9 @@ function canStartStringAt(state, pos, prefixes) {
 /**
  * Creates and initializes a CodeMirror editor using the basic setup. using the config from CodeMirror Docs.
  *
+ * The imports are packages installed using npm and are under the codemirror main package
+ * in the imports {} are functions that each package contains. These fucntions are extentions 
+ * that edit the state of the codemirror window.
  * 
  * 
  * @type {EditorState} Represents the initial state of the CodeMirror editor.
