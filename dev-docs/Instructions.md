@@ -22,6 +22,8 @@ npm install -g jsdoc
 
 -Open a Node.js command prompt
 
+-Cd into the the CodEd fodler
+
 -Execute `npm install` to install all required packages
 
 -Execute `npm start` to start the web server
