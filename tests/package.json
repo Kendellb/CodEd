@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^29.7.0",
+    "superagent": "^8.1.2",
+    "supertest": "^6.3.4"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}

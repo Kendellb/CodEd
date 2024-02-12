@@ -24,6 +24,8 @@ npm install -g jsdoc
 
 -Cd into the the CodEd fodler
 
+-Execute `npm install` to install all required packages
+
 -Execute `npm start` to start the web server
 
 -Execute `npm fund` 
@@ -35,6 +37,11 @@ npm install -g jsdoc
 At the command line where the server was started, enter Ctrl-C to stop the server
 
 # Running tests
+- cd into the outermost folder `~./Kendell-Barry`
+- Then Execute
+  ```
+  jest --coverage test
+  ```
 
 # Generating API Documentation 
 
