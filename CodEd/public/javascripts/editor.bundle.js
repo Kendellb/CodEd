@@ -21965,7 +21965,7 @@ class SearchCursor {
             let norm = this.normalize(str);
             for (let i = 0, pos = start;; i++) {
                 let code = norm.charCodeAt(i);
-                let match = this.match(code, pos, this.bufferPos + this.bufferStart);
+                let match = this.match(code, pos);
                 if (i == norm.length - 1) {
                     if (match) {
                         this.value = match;
@@ -21978,13 +21978,13 @@ class SearchCursor {
             }
         }
     }
-    match(code, pos, end) {
+    match(code, pos) {
         let match = null;
         for (let i = 0; i < this.matches.length; i += 2) {
             let index = this.matches[i], keep = false;
             if (this.query.charCodeAt(index) == code) {
                 if (index == this.query.length - 1) {
-                    match = { from: this.matches[i + 1], to: end };
+                    match = { from: this.matches[i + 1], to: pos + 1 };
                 }
                 else {
                     this.matches[i]++;
@@ -21998,7 +21998,7 @@ class SearchCursor {
         }
         if (this.query.charCodeAt(0) == code) {
             if (this.query.length == 1)
-                match = { from: pos, to: end };
+                match = { from: pos, to: pos + 1 };
             else
                 this.matches.push(1, pos);
         }
@@ -22346,12 +22346,12 @@ const matchHighlighter = /*@__PURE__*/ViewPlugin.fromClass(class {
             if (conf.wholeWords) {
                 query = state.sliceDoc(range.from, range.to); // TODO: allow and include leading/trailing space?
                 check = state.charCategorizer(range.head);
-                if (!(insideWordBoundaries(check, state, range.from, range.to) &&
-                    insideWord(check, state, range.from, range.to)))
+                if (!(insideWordBoundaries(check, state, range.from, range.to)
+                    && insideWord(check, state, range.from, range.to)))
                     return Decoration.none;
             }
             else {
-                query = state.sliceDoc(range.from, range.to);
+                query = state.sliceDoc(range.from, range.to).trim();
                 if (!query)
                     return Decoration.none;
             }
