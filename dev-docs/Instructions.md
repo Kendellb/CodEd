@@ -37,8 +37,7 @@ npm install -g jsdoc
 At the command line where the server was started, enter Ctrl-C to stop the server
 
 # Running tests
--First start the node server [See above](https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/blob/1.5-As-a-User-I-want-to-have-syntax-highlighting-for-my-Java-code/dev-docs/Instructions.md#running-the-server)
-- Next in a new terminal (in Vscode hit terminal in the top left next to help) cd into the outermost folder `~./Kendell-Barry`
+- cd into the outermost folder `~./Kendell-Barry`
 - Then Execute
   ```
   jest --coverage test
