@@ -31,7 +31,7 @@ await submitButton.click();
 let message = await driver.findElement(By.id('message'));
 let value = await message.getText();*/
 
-await driver.sleep(1000); // to allow the user to see that the text had been inputed
+//await driver.sleep(1000); // to allow the user to see that the text had been inputed
 
 await driver.quit();
 }
