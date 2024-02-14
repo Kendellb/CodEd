@@ -13,7 +13,13 @@
       <div id="editor" autofocus>
         <!-- code editor goes here  -->
       </div>
+      <button id="saveButton">Save</button> 
     </main>
-    <script type="module" src="../javascripts/editor.bundle.js"></script>
+    <script src="../javascripts/editor.bundle.js"></script>
+    <script> 
+    //https://discuss.codemirror.net/t/how-to-get-editor-content-from-the-browser/3840
+    document.getElementById("saveButton").addEventListener("click", function() {
+    console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
+});</script>
   </body>
 </html>

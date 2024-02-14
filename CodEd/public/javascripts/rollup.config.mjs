@@ -13,7 +13,8 @@ export default {
   input: "./editor.mjs",
   output: {
     file: "./public/javascripts/editor.bundle.js",
-    format: "cjs",
+    format: "iife",
+    name: "editor",
   },
   plugins: [nodeResolve()],
 };
