@@ -1,0 +1,29 @@
+'use strict';
+//Test code taken from selenium tutorial
+/*
+const {By, Builder, Browser} = require('selenium-webdriver');
+
+async function selenium_test(){
+
+const driver = await new Builder().forBrowser('firefox').build();
+
+await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
+
+let title = await driver.getTitle();
+
+await driver.manage().setTimeouts({implicit: 500});
+
+let textBox = await driver.findElement(By.name('my-text'));
+let submitButton = await driver.findElement(By.css('button'));
+
+await textBox.sendKeys('Selenium');
+await submitButton.click();
+
+let message = await driver.findElement(By.id('message'));
+let value = await message.getText();
+
+await driver.quit();
+}
+
+test('Selenium test test test', selenium_test);
+*/

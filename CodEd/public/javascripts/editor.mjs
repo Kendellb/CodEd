@@ -11,22 +11,43 @@
  * @type {EditorView} Represents a CodeMirror editor instance.
  */
 import {EditorState} from "@codemirror/state";
-//import {EditorView, basicSetup } from "@codemirror/basic-setup";
-import {EditorView, keymap,lineNumbers,highlightActiveLineGutter} from "@codemirror/view";
-import { java } from "@codemirror/lang-java";
-import {bracketMatching } from "@codemirror/language";
-import {defaultKeymap} from "@codemirror/commands";
-import {closeBrackets} from "@codemirror/autocomplete"
+import {EditorView, keymap,lineNumbers,highlightActiveLineGutter,highlightSpecialChars,
+drawSelection,dropCursor,rectangularSelection,crosshairCursor,highlightActiveLine} from "@codemirror/view";
+import { java,javaLanguage } from "@codemirror/lang-java";
+import {bracketMatching, foldGutter, indentOnInput, syntaxHighlighting, 
+  defaultHighlightStyle, foldKeymap,LanguageSupport} from "@codemirror/language";
+import {defaultKeymap,history,historyKeymap} from "@codemirror/commands";
+import {closeBrackets,closeBracketsKeymap} from "@codemirror/autocomplete";
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+
+
+
+function javaLanguageSupport (){
+  return new LanguageSupport(javaLanguage);
+}
 
 let startState = EditorState.create({
-  doc: "Hello World",
+  doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
   extensions: [
-    keymap.of(defaultKeymap), 
+    keymap.of(defaultKeymap,historyKeymap,
+      closeBracketsKeymap,searchKeymap,foldKeymap), 
     java(),
     lineNumbers(),
     highlightActiveLineGutter(),
     bracketMatching(),
-    closeBrackets()
+    closeBrackets(),
+    syntaxHighlighting(defaultHighlightStyle,{fallback: true}),
+    history(),
+    foldGutter(),
+    indentOnInput(),
+    highlightSelectionMatches(),
+    highlightSpecialChars(),
+    drawSelection(),
+    dropCursor(),
+    rectangularSelection(),
+    crosshairCursor(),
+    highlightActiveLine(),
+    javaLanguageSupport(),
   ]
 })
 

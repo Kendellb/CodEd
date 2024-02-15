@@ -30,15 +30,19 @@ npm install -g jsdoc
 
 -Execute `npm fund` 
 
--In a browser, visit http://localhost:3000/ to verify that the server is running
+-In a browser, visit [http://localhost:3000/](http://localhost:3000/) to verify that the server is running
 
 # Stopping the server
 
 At the command line where the server was started, enter Ctrl-C to stop the server
 
 # Running tests
-- cd into the outermost folder `~./Kendell-Barry`
-- Then Execute
+- First cd into the tests folder and execute `npm install` and `npm fund`
+- Next cd into the CodEd folder by first going back to the root.
+- Then start the node server [See above](https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/blob/1.5-As-a-User-I-want-to-have-syntax-highlighting-for-my-Java-code/dev-docs/Instructions.md#running-the-server)
+- Then open a new terminal (in Vscode hit terminal in the top left next to help)
+- Next cd into the root of the project
+- Finally Execute
   ```
   jest --coverage test
   ```
