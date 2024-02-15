@@ -16,10 +16,6 @@
       <button id="saveButton">Save</button> 
     </main>
     <script src="../javascripts/editor.bundle.js"></script>
-    <script> 
-    //https://discuss.codemirror.net/t/how-to-get-editor-content-from-the-browser/3840
-    document.getElementById("saveButton").addEventListener("click", function() {
-    console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
-});</script>
+    <script src="../javascripts/saveButton.js"></script>
   </body>
 </html>
