@@ -1,5 +1,6 @@
 /**
  * Creates and initializes a CodeMirror editor using the basic setup. using the config from CodeMirror Docs.
+ * This is created in the editor.bundle.js file.
  *
  * The imports are packages installed using npm and are under the codemirror main package
  * in the imports {} are functions that each package contains. These fucntions are extentions 
