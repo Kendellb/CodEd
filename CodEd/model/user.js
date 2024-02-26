@@ -8,14 +8,17 @@ const userSchema = new mongoose.Schema({
     },
     uniqueID:{
         type: String,
-        required: true,
+        //required: true,
         unique: true
+    },
+    userCodeData:{
+        type: String,
     }
   });
 
   userSchema.pre('save', function(next){
     if(!this.uniqueID){
-        this.uniqueID = this.userName + '-' + uuidv4().replace(/-/g, '').substring(0,8);
+        this.uniqueID = this.username + '-' + uuidv4().replace(/-/g, '').substring(0,8);
     }
     next();
   });

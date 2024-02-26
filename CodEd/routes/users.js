@@ -63,4 +63,28 @@ router.post('/login', async (req, res) => {
 });
 
 
+router.post('/updateUserData', async (req,res) =>{
+  const userData = req.body.userData;
+  const userId = req.session.user.uniqueID;
+
+  try {
+    const user = await User.findOne({ uniqueID: userId });
+
+    if (!user) {
+        return res.status(404).send('User not found');
+    }
+
+    user.userCodeData = userData;
+
+    await user.save();
+
+    res.status(200).send('User data updated and saved successfully');
+} catch (error) {
+    console.error('Error updating user data:', error);
+    res.status(500).send('Internal server error');
+}
+
+});
+
+
 module.exports = router;
