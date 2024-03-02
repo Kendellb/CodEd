@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const {v4: uuidv4} = require('uuid');
 
+/**
+ * Represents the schema for User data.
+ * @typedef {Object} UserSchema
+ * @property {string} username - The username of the user. Required.
+ * @property {string} uniqueID - The unique identifier for the user. Automatically generated if not provided.
+ * @property {string} userCodeData - Additional data associated with the user.
+ */
+
+/**
+ * Represents a User in the database.
+ * @class
+ * @param {UserSchema} userSchema - The schema for user data.
+ */
+
 const userSchema = new mongoose.Schema({
     username:{
         type: String,
@@ -16,6 +30,12 @@ const userSchema = new mongoose.Schema({
     }
   });
 
+/**
+ * Middleware to generate a uniqueID before saving if it doesn't exist.
+ * @function
+ * @param {Function} next - The next function in the middleware chain.
+ * @returns {void}
+ */
   userSchema.pre('save', function(next){
     if(!this.uniqueID){
         this.uniqueID = this.username + '-' + uuidv4().replace(/-/g, '').substring(0,8);

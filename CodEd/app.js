@@ -8,7 +8,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
+//MongoDB connection requirements
 var mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://test:test@coded.p7136aw.mongodb.net/?retryWrites=true&w=majority&appName=CodEd";
@@ -31,7 +31,7 @@ app.use('/users', usersRouter);
 app.post('/login',usersRouter);
 app.post('/register',usersRouter);
 
-
+//connecting to MongoDB
 mongoose.connect(uri,{
 useNewUrlParser: true,
   useUnifiedTopology: true,

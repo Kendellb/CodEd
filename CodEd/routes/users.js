@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/register', async function(req,res){
-   //console.log(req.body);
   try {
     const { username } = req.body;
 
@@ -29,7 +28,8 @@ router.post('/register', async function(req,res){
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
+    //res.status(201).json({ message: 'User registered successfully', user: newUser });
+    res.redirect('/');
   } 
 
   catch (error) {
@@ -68,12 +68,15 @@ router.post('/updateUserData', async (req,res) =>{
   const userId = req.session.user.uniqueID;
 
   try {
+    //find the user in the DB by there uniqueID
     const user = await User.findOne({ uniqueID: userId });
 
+    //If no user is found send an error.
     if (!user) {
         return res.status(404).send('User not found');
     }
 
+    //Save the Code taken in from the submitButton.js POST method and saves it to the user in the DB.
     user.userCodeData = userData;
 
     await user.save();

@@ -22,10 +22,72 @@ import {closeBrackets,closeBracketsKeymap} from "@codemirror/autocomplete";
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 
 
-
+/**
+ * Creates language support for Java.
+ * @function javaLanguageSupport
+ * @returns {LanguageSupport} Language support for Java.
+ */
 function javaLanguageSupport (){
   return new LanguageSupport(javaLanguage);
 }
+
+/**
+ * Represents a keymap for keyboard shortcuts.
+ * @type {Keymap}
+ * 
+ * Represents language support for Java.
+ * @type {LanguageSupport}
+ * 
+ * Represents line numbers displayed in the editor.
+ * @type {LineNumbers}
+ * 
+ * Represents highlighting of the active line gutter.
+ * @type {HighlightActiveLineGutter}
+ * 
+ * Represents bracket matching functionality.
+ * @type {BracketMatching}
+ * 
+ * Represents automatic insertion of closing brackets.
+ * @type {CloseBrackets}
+ * 
+ * Represents syntax highlighting for Java code.
+ * @type {SyntaxHighlighting}
+ * 
+ * Represents a history mechanism for undo/redo functionality.
+ * @type {History}
+ * 
+ * Represents a fold gutter for code folding.
+ * @type {FoldGutter}
+ * 
+ * Represents automatic indentation on input.
+ * @type {IndentOnInput}
+ * 
+ * Represents highlighting of selection matches.
+ * @type {HighlightSelectionMatches}
+ * 
+ * Represents highlighting of special characters.
+ * @type {HighlightSpecialChars}
+ * 
+ * Represents drawing of selections in the editor.
+ * @type {DrawSelection}
+ * 
+ * Represents a drop cursor for dragging and dropping text.
+ * @type {DropCursor}
+ * 
+ * Represents rectangular selection functionality.
+ * @type {RectangularSelection}
+ * 
+ * Represents a crosshair cursor for precise text selection.
+ * @type {CrosshairCursor}
+ *
+ * Represents highlighting of the active line.
+ * @type {HighlightActiveLine}
+ *
+ * Represents language support for Java in an editor.
+ * @type {LanguageSupport}
+ */
+
+
 
 let startState = EditorState.create({
   doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
