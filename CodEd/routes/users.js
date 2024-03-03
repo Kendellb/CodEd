@@ -29,7 +29,7 @@ router.post('/register', async function(req,res){
     await newUser.save();
 
     //res.status(201).json({ message: 'User registered successfully', user: newUser });
-    res.redirect('/');
+    res.redirect('/editor');
   } 
 
   catch (error) {
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
       const foundUser = await User.findOne({ username });
       if (foundUser) {
           req.session.user = foundUser;
-          res.redirect('/');
+          res.redirect('/editor');
       } else {
           res.send('Invalid username');
       }

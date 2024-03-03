@@ -7,6 +7,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var editorRouter = require('./routes/editor');
 
 //MongoDB connection requirements
 var mongoose = require('mongoose');
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/editor', editorRouter);
 
 app.post('/login',usersRouter);
 app.post('/register',usersRouter);
