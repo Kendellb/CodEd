@@ -11,6 +11,7 @@
 function saveButtonEvent(){
     //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
     const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
+    console.log(userData);
 
     // Send an HTTP POST request to the server with the user data
     fetch('/users/updateUserData', {

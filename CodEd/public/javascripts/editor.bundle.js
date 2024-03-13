@@ -23158,12 +23158,8 @@
     * @type {LanguageSupport}
     */
 
-
-
-   let startState = EditorState.create({
-     doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
-     extensions: [
-       keymap.of(defaultKeymap,historyKeymap,
+   let extensions = [
+     keymap.of(defaultKeymap,historyKeymap,
          closeBracketsKeymap,searchKeymap,foldKeymap), 
        java(),
        lineNumbers(),
@@ -23182,12 +23178,143 @@
        crosshairCursor(),
        highlightActiveLine(),
        javaLanguageSupport(),
-     ]
-   });
+   ];
 
-   new EditorView({
+
+
+   class Editor{
+     constructor(el,value){
+       const state = this.createState(value);
+       this.view = new EditorView({
+         parent: el,
+         state
+       });
+     }
+
+     createState(value){
+       return EditorState.create({
+         doc: value,
+         extensions: extensions
+       });
+     }
+
+     updateState(str){
+       var newState = EditorState.create({
+         doc: str, 
+         extensions:extensions
+       });
+       this.view.setState(newState);
+       /*
+       this.view.dispatch({
+       changes: {from: 0, to: this.view.state.doc.length , insert: str}
+       
+   })*/
+     }
+
+   }
+
+   /*
+
+   import Editor from "./editor.js";
+
+   const editor = new Editor(
+     document.querySelector("#app"),
+     "<div>hello world</div>"
+   );
+
+   editor.switchLang("plain");
+
+   */
+
+   /*
+   let startState = EditorState.create({
+     doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
+     extensions: extensions
+   })
+
+   let editor = new EditorView({
      state: startState,
      parent: document.querySelector('#editor')
-   });
+   });*/
+
+
+   /*
+   import { EditorView } from "@codemirror/view";
+   import { EditorState, Compartment } from "@codemirror/state";
+   import { html } from "@codemirror/lang-html";
+   import { defaultHighlightStyle } from "@codemirror/highlight";
+
+   // import imagePlugin from "./imagePlugin";
+
+   const language = new Compartment();
+
+   class Editor {
+     constructor(el, value) {
+       const state = this.createState(value);
+       this.view = new EditorView({
+         parent: el,
+         state
+       });
+     }
+
+     createState(value) {
+       this.tabSize = new Compartment();
+       return EditorState.create({
+         doc: value,
+         extensions: [language.of(html()), defaultHighlightStyle]
+       });
+     }
+
+     switchLang(lang) {
+       const langPack = lang === "html" ? html() : [];
+       this.view.dispatch({
+         effects: language.reconfigure(langPack)
+       });
+       console.log("language should be switched by now");
+     }
+   }
+
+   export default Editor;
+   */
+
+   const editor = new Editor(
+       document.querySelector('#editor'),
+       `Hello`
+   );
+
+   function upState(){
+       /*
+       const newEditor = new Editor(
+           document.querySelector('#editor'),
+           `Hello World`
+       )
+       */
+       editor.updateState(`Hello world!`);
+   }
+
+    document.getElementById('saveButton').addEventListener('click', upState);
+
+   /*
+    // Function to trigger Rollup bundling
+           function bundleScripts() {  
+
+               async function bundle() {
+                   const config = '../javascripts/rollup.config.mjs';
+                   // create a bundle
+                   const bundle = await rollup.rollup(config);
+
+                   // write the bundle to disk
+                   await bundle.write(config.output);
+
+                   console.log('Bundling complete!');
+               }
+
+               bundle().catch(err => {
+                   console.error(err);
+               });
+           }
+           // Attach event listener to the button
+           document.getElementById('updateState').addEventListener('click', bundleScripts)
+   */
 
 })();
