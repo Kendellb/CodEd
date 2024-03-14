@@ -29,7 +29,7 @@ router.post('/register', async function(req,res){
     await newUser.save();
 
     //res.status(201).json({ message: 'User registered successfully', user: newUser });
-    res.redirect('/editor');
+    res.redirect('/users/login');
   } 
 
   catch (error) {
