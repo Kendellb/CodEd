@@ -6,12 +6,15 @@ import Editor from "./editorModule";
     `public class Main(){\n public static void main(String args[]){\n\n}\n}`
   );
 
+
 //console.log(window.location.pathname)//TESTING
+//statment to dynamically add event handler based on the window location
+// to avoid conflicts with other event handlers for other views
 if(window.location.pathname === '/users/login'){
 //document.getElementById('UserLoginButton').addEventListener('click', textfromDb);
 }
 
-
+//save code to the database 
 function saveButtonEvent(){
     //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
     const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
@@ -37,6 +40,8 @@ function saveButtonEvent(){
     });
 }
 
+//if code exists in the db this function will update the editor to 
+// be filled with that saved code instead.
 async function textfromDb(){
   fetch('/users/current-user-data')
   .then(response => {
@@ -56,30 +61,12 @@ async function textfromDb(){
   });
   }
 
+//statment to dynamically add event handler based on the window location
+// to avoid conflicts with other event handlers for other views
 if(window.location.pathname === '/editor'){
  document.getElementById('saveButton').addEventListener('click', saveButtonEvent)
+ //Initial call to check if there is code in the database 
+ //see function for more details
  textfromDb()
  //setInterval(textfromDb,5000); TESTING
 }
-/*
- // Function to trigger Rollup bundling
-        function bundleScripts() {  
-
-            async function bundle() {
-                const config = '../javascripts/rollup.config.mjs';
-                // create a bundle
-                const bundle = await rollup.rollup(config);
-
-                // write the bundle to disk
-                await bundle.write(config.output);
-
-                console.log('Bundling complete!');
-            }
-
-            bundle().catch(err => {
-                console.error(err);
-            });
-        }
-        // Attach event listener to the button
-        document.getElementById('updateState').addEventListener('click', bundleScripts)
-*/

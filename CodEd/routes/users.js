@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+//POST for register a user 
 router.post('/register', async function(req,res){
   try {
     const { username } = req.body;
@@ -29,6 +30,7 @@ router.post('/register', async function(req,res){
     await newUser.save();
 
     //res.status(201).json({ message: 'User registered successfully', user: newUser });
+    //redirct back to login to avoid bugs with session.
     res.redirect('/users/login');
   } 
 
@@ -46,6 +48,7 @@ router.get('/login', function(req, res, next) {
   res.render('login');
 });
 
+//POST used to login set the session to the username and then redirect ot the code window
 router.post('/login', async (req, res) => {
   const { username } = req.body;
   try {
@@ -62,7 +65,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
+// POST used to save the code written to the user session
 router.post('/updateUserData', async (req,res) =>{
   const userData = req.body.userData;
   const userId = req.session.user.uniqueID;
@@ -71,12 +74,12 @@ router.post('/updateUserData', async (req,res) =>{
     //find the user in the DB by there uniqueID
     const user = await User.findOne({ uniqueID: userId });
 
-    //If no user is found send an error.
     if (!user) {
         return res.status(404).send('User not found');
     }
 
-    //Save the Code taken in from the submitButton.js POST method and saves it to the user in the DB.
+    //Save the Code taken in from the submitButtonEvent
+    // POST method and saves it to the user in the DB.
     user.userCodeData = userData;
 
     await user.save();
@@ -89,6 +92,7 @@ router.post('/updateUserData', async (req,res) =>{
 
 });
 
+//get the code from the db using the users session 
 router.get('/current-user-data', (req, res) => {
   // Check if user is authenticated
   if (!req.session || !req.session.user) {
