@@ -23319,7 +23319,9 @@
      })
      .then(userData => {
        console.log('Current user data:', userData);
+       if(userData){
        editor.updateState(userData);
+       }
      })
      .catch(error => {
        console.error('There was a problem with the fetch operation:', error);
