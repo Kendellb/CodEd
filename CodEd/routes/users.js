@@ -89,5 +89,29 @@ router.post('/updateUserData', async (req,res) =>{
 
 });
 
+router.get('/current-user-data', (req, res) => {
+  // Check if user is authenticated
+  if (!req.session || !req.session.user) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
+
+  // Get the current user's ID from the session
+  const userId = req.session.user;
+
+  // Fetch user data using the User model
+  User.findById(userId)
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const userCodeData = user.userCodeData;
+      res.send(userCodeData);
+    })
+    .catch(error => {
+      console.error('Error fetching user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+});
+
 
 module.exports = router;
