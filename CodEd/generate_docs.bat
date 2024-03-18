@@ -1,4 +1,14 @@
 @echo off
+setlocal
 
-rem Run JSDoc with the specified files
-node_modules\.bin\jsdoc.cmd model\user.js public\javascripts\editor.mjs public\javascripts\editorModule.js public\javascripts\homepage.js public\javascripts\rollup.config.mjs
+REM Path to JSDoc executable
+set JSDOC_PATH=node_modules\.bin\jsdoc
+
+REM Input files
+set INPUT_FILES=model\user.js public\javascripts\editor.mjs public\javascripts\editorModule.js public\javascripts\homepage.js public\javascripts\rollup.config.mjs
+
+
+REM Run JSDoc command
+%JSDOC_PATH% %INPUT_FILES% 
+
+echo Documentation generated
