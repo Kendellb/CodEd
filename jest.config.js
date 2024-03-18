@@ -26,7 +26,6 @@ const config = {
     "**model/*.js",
     "**/routes/*.js",
     "**/public/javascripts/*.js",
-    "**/node_modules/**"
   ],
 
   // The directory where Jest should output its coverage files

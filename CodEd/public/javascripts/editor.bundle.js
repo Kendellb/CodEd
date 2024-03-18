@@ -23085,11 +23085,6 @@
     * The imports are packages installed using npm and are under the codemirror main package
     * in the imports {} are functions that each package contains. These fucntions are extentions 
     * that edit the state of the codemirror window.
-    * 
-    * 
-    * @type {EditorState} Represents the initial state of the CodeMirror editor.
-    *
-    * @type {EditorView} Represents a CodeMirror editor instance.
     */
 
 
@@ -23104,59 +23099,94 @@
 
    /**
     * Represents a keymap for keyboard shortcuts.
-    * @type {Keymap}
-    * 
-    * Represents language support for Java.
-    * @type {LanguageSupport}
-    * 
-    * Represents line numbers displayed in the editor.
-    * @type {LineNumbers}
-    * 
-    * Represents highlighting of the active line gutter.
-    * @type {HighlightActiveLineGutter}
-    * 
-    * Represents bracket matching functionality.
-    * @type {BracketMatching}
-    * 
-    * Represents automatic insertion of closing brackets.
-    * @type {CloseBrackets}
-    * 
-    * Represents syntax highlighting for Java code.
-    * @type {SyntaxHighlighting}
-    * 
-    * Represents a history mechanism for undo/redo functionality.
-    * @type {History}
-    * 
-    * Represents a fold gutter for code folding.
-    * @type {FoldGutter}
-    * 
-    * Represents automatic indentation on input.
-    * @type {IndentOnInput}
-    * 
-    * Represents highlighting of selection matches.
-    * @type {HighlightSelectionMatches}
-    * 
-    * Represents highlighting of special characters.
-    * @type {HighlightSpecialChars}
-    * 
-    * Represents drawing of selections in the editor.
-    * @type {DrawSelection}
-    * 
-    * Represents a drop cursor for dragging and dropping text.
-    * @type {DropCursor}
-    * 
-    * Represents rectangular selection functionality.
-    * @type {RectangularSelection}
-    * 
-    * Represents a crosshair cursor for precise text selection.
-    * @type {CrosshairCursor}
-    *
-    * Represents highlighting of the active line.
-    * @type {HighlightActiveLine}
-    *
-    * Represents language support for Java in an editor.
-    * @type {LanguageSupport}
+    * @typedef {Object} Keymap Represents a set of keyboard shortcuts.
     */
+
+   /**
+    * Represents language support for Java.
+    * @typedef {Object} LanguageSupport Represents language-specific support for Java code.
+    */
+
+   /**
+    * Represents line numbers displayed in the editor.
+    * @typedef {Object} LineNumbers Represents the display of line numbers in the editor.
+    */
+
+   /**
+    * Represents highlighting of the active line gutter.
+    * @typedef {Object} HighlightActiveLineGutter Represents the visual highlighting of the active line gutter.
+    */
+
+   /**
+    * Represents bracket matching functionality.
+    * @typedef {Object} BracketMatching Represents the capability to match brackets in the editor.
+    */
+
+   /**
+    * Represents automatic insertion of closing brackets.
+    * @typedef {Object} CloseBrackets Represents the automatic insertion of closing brackets in the editor.
+    */
+
+   /**
+    * Represents syntax highlighting for Java code.
+    * @typedef {Object} SyntaxHighlighting Represents the syntax highlighting rules for Java code.
+    */
+
+   /**
+    * Represents a history mechanism for undo/redo functionality.
+    * @typedef {Object} History Represents the history mechanism for undo/redo functionality in the editor.
+    */
+
+   /**
+    * Represents a fold gutter for code folding.
+    * @typedef {Object} FoldGutter Represents the gutter used for code folding.
+    */
+
+   /**
+    * Represents automatic indentation on input.
+    * @typedef {Object} IndentOnInput Represents automatic indentation behavior on user input.
+    */
+
+   /**
+    * Represents highlighting of selection matches.
+    * @typedef {Object} HighlightSelectionMatches Represents the highlighting of matches for the selected text.
+    */
+
+   /**
+    * Represents highlighting of special characters.
+    * @typedef {Object} HighlightSpecialChars Represents the highlighting of special characters in the editor.
+    */
+
+   /**
+    * Represents drawing of selections in the editor.
+    * @typedef {Object} DrawSelection Represents the drawing of selections in the editor.
+    */
+
+   /**
+    * Represents a drop cursor for dragging and dropping text.
+    * @typedef {Object} DropCursor Represents the cursor used for dragging and dropping text in the editor.
+    */
+
+   /**
+    * Represents rectangular selection functionality.
+    * @typedef {Object} RectangularSelection Represents the functionality for making rectangular selections in the editor.
+    */
+
+   /**
+    * Represents a crosshair cursor for precise text selection.
+    * @typedef {Object} CrosshairCursor Represents the cursor used for precise text selection.
+    */
+
+   /**
+    * Represents highlighting of the active line.
+    * @typedef {Object} HighlightActiveLine Represents the highlighting of the active line in the editor.
+    */
+
+   /**
+    * Represents language support for Java in an editor.
+    * @typedef {Object} LanguageSupport Represents language-specific support for Java in the editor.
+    */
+
 
    let extensions = [
      keymap.of(defaultKeymap,historyKeymap,
@@ -23180,16 +23210,22 @@
        javaLanguageSupport(),
    ];
 
-
+   /**
+    * Represents the state of the editor.
+    * @typedef {Object} EditorState
+    * @property {string} doc - The document content of the editor state.
+    * @property {Array} extensions - The extensions used by the editor state.
+    */
 
    /**
     * Class representing a text editor.
+    * @class
     */
    class Editor {
      /**
       * Create an Editor.
       * @param {HTMLElement} el - The HTML element to attach the editor to.
-      * @param {string} value - The initial value of the editor.
+      * @param {string} value - The initial vaule of the editor.
       */
      constructor(el, value) {
        /**
@@ -23237,67 +23273,80 @@
      }
    }
 
-   //Temp editor if nothing is in the db.    
-       const editor = new Editor(
-       document.querySelector('#editor'),
-       `public class Main(){\n public static void main(String args[]){\n\n}\n}`
-     );
+   /* TESTSING
+   //console.log(window.location.pathname)
+   //statment to dynamically add event handler based on the window location
+   // to avoid conflicts with other event handlers for other views
+   if(window.location.pathname === '/users/login'){
+   //document.getElementById('UserLoginButton').addEventListener('click', textfromDb);
+   }
+   */
 
    //save code to the database 
-   function saveButtonEvent(){
-       //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
-       const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
-       console.log(userData);
+   function saveButtonEvent() {
+     //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
+     const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
+     console.log(userData);
 
-       // Send an HTTP POST request to the server with the user data
-       fetch('/users/updateUserData', {
-           method: 'POST',
-           headers: {
-               'Content-Type': 'application/json'
-           },
-           body: JSON.stringify({ userData })
-       })
+     // Send an HTTP POST request to the server with the user data
+     fetch('/users/updateUserData', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ userData })
+     })
        .then(response => {
-           if (response.ok) {
-               console.log('User data updated successfully');
-           } else {
-               console.error('Failed to update user data');
-           }
+         if (response.ok) {
+           console.log('User data updated successfully');
+         } else {
+           console.error('Failed to update user data');
+         }
        })
        .catch(error => {
-           console.error('Error:', error);
+         console.error('Error:', error);
        });
    }
 
    //if code exists in the db this function will update the editor to 
    // be filled with that saved code instead.
-   async function textfromDb(){
+   async function textfromDb() {
      fetch('/users/current-user-data')
-     .then(response => {
-       if (!response.ok) {
-         throw new Error('Network response was not ok');
-       }
-       return response.text();
-     })
-     .then(userData => {
-       console.log('Current user data:', userData);
-       if(userData){
-       editor.updateState(userData);
-       }
-     })
-     .catch(error => {
-       console.error('There was a problem with the fetch operation:', error);
-     });
-     }
+       .then(response => {
+         if (!response.ok) {
+           throw new Error('Network response was not ok');
+         }
+         return response.text();
+       })
+       .then(userData => {
+         console.log('Current user data:', userData);
+         if (userData) {
+           //editor.updateState(userData)
+           new Editor(
+             document.querySelector('#editor'),
+             userData
+           );
+         }
+         else {
+           new Editor(
+             document.querySelector('#editor'),
+             `public class Main(){\n public static void main(String args[]){\n\n}\n}`
+           );
+         }
+       })
+       .catch(error => {
+         console.error('There was a problem with the fetch operation:', error);
+       });
+   }
 
    //statment to dynamically add event handler based on the window location
    // to avoid conflicts with other event handlers for other views
-   if(window.location.pathname === '/editor'){
-    document.getElementById('saveButton').addEventListener('click', saveButtonEvent);
-    //Initial call to check if there is code in the database 
-    //see function for more details
-    textfromDb();
-    //setInterval(textfromDb,5000); TESTING
+   if (window.location.pathname === '/editor') {
+     document.getElementById('saveButton').addEventListener('click', saveButtonEvent);
+     //Initial call to check if there is code in the database 
+     //see function for more details
+     textfromDb();
+     //setInterval(textfromDb,5000); TESTING
    }
 
 })();

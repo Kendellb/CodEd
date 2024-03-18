@@ -5,11 +5,6 @@
  * The imports are packages installed using npm and are under the codemirror main package
  * in the imports {} are functions that each package contains. These fucntions are extentions 
  * that edit the state of the codemirror window.
- * 
- * 
- * @typedef {Object} EditorState Represents the initial state of the CodeMirror editor.
- *
- * @typedef {Object} EditorView Represents a CodeMirror editor instance.
  */
 import {EditorState} from "@codemirror/state";
 import {EditorView, keymap,lineNumbers,highlightActiveLineGutter,highlightSpecialChars,
@@ -144,16 +139,22 @@ let extensions = [
     javaLanguageSupport(),
 ]
 
-
+/**
+ * Represents the state of the editor.
+ * @typedef {Object} EditorState
+ * @property {string} doc - The document content of the editor state.
+ * @property {Array} extensions - The extensions used by the editor state.
+ */
 
 /**
  * Class representing a text editor.
+ * @class
  */
 class Editor {
   /**
    * Create an Editor.
    * @param {HTMLElement} el - The HTML element to attach the editor to.
-   * @param {string} value - The initial value of the editor.
+   * @param {string} value - The initial vaule of the editor.
    */
   constructor(el, value) {
     /**

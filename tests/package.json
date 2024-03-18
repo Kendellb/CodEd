@@ -13,6 +13,7 @@
   "dependencies": {
     "jsdom": "^24.0.0",
     "mocha": "^10.2.0",
+    "mongoose": "^8.2.2",
     "selenium-webdriver": "^4.17.0"
   }
 }
