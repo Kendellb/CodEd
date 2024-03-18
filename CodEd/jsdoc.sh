@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Check if JSDoc command exists
-if ! command -v jsdoc &> /dev/null
-then
-    echo "JSDoc not found. Please make sure JSDoc is installed and added to your PATH."
-    exit 1
+# Check if the platform is Windows
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+    JSDOC_COMMAND="jsdoc.cmd"
+else
+    JSDOC_COMMAND="jsdoc"
 fi
 
 # Run JSDoc with the specified files
-jsdoc model/user.js public/javascripts/editor.mjs public/javascripts/editorModule.js public/javascripts/homepage.js public/javascripts/rollup.config.mjs
+"$JSDOC_COMMAND" model/user.js public/javascripts/editor.mjs public/javascripts/editorModule.js public/javascripts/homepage.js public/javascripts/rollup.config.mjs
