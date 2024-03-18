@@ -111,99 +111,62 @@ let extensions = [
 
 
 
-class Editor{
-  constructor(el,value){
+/**
+ * Class representing a text editor.
+ */
+class Editor {
+  /**
+   * Create an Editor.
+   * @param {HTMLElement} el - The HTML element to attach the editor to.
+   * @param {string} value - The initial value of the editor.
+   */
+  constructor(el, value) {
+    /**
+     * @private
+     * @type {EditorView}
+     */
     const state = this.createState(value);
+    /**
+     * The view of the editor.
+     * @type {EditorView}
+     */
     this.view = new EditorView({
       parent: el,
       state
     });
   }
 
-  createState(value){
+  /**
+   * Create the state of the editor.
+   * @param {string} value - The initial value of the editor state.
+   * @returns {EditorState} The created editor state.
+   */
+  createState(value) {
     return EditorState.create({
       doc: value,
       extensions: extensions
     });
   }
 
-  updateState(str){
+  /**
+   * Update the state of the editor.
+   * @param {string} str - The new value to set for the editor state.
+   */
+  updateState(str) {
     var newState = EditorState.create({
-      doc: str, 
-      extensions:extensions
-    })
-    this.view.setState(newState)
+      doc: str,
+      extensions: extensions
+    });
+    this.view.setState(newState);
     /*
     this.view.dispatch({
-    changes: {from: 0, to: this.view.state.doc.length , insert: str}
-    
-})*/
-  }
-
-}
-
-export default Editor;
-
-/*
-
-import Editor from "./editor.js";
-
-const editor = new Editor(
-  document.querySelector("#app"),
-  "<div>hello world</div>"
-);
-
-editor.switchLang("plain");
-
-*/
-
-/*
-let startState = EditorState.create({
-  doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
-  extensions: extensions
-})
-
-let editor = new EditorView({
-  state: startState,
-  parent: document.querySelector('#editor')
-});*/
-
-
-/*
-import { EditorView } from "@codemirror/view";
-import { EditorState, Compartment } from "@codemirror/state";
-import { html } from "@codemirror/lang-html";
-import { defaultHighlightStyle } from "@codemirror/highlight";
-
-// import imagePlugin from "./imagePlugin";
-
-const language = new Compartment();
-
-class Editor {
-  constructor(el, value) {
-    const state = this.createState(value);
-    this.view = new EditorView({
-      parent: el,
-      state
+      changes: {from: 0, to: this.view.state.doc.length , insert: str}
     });
-  }
-
-  createState(value) {
-    this.tabSize = new Compartment();
-    return EditorState.create({
-      doc: value,
-      extensions: [language.of(html()), defaultHighlightStyle]
-    });
-  }
-
-  switchLang(lang) {
-    const langPack = lang === "html" ? html() : [];
-    this.view.dispatch({
-      effects: language.reconfigure(langPack)
-    });
-    console.log("language should be switched by now");
+    */
   }
 }
 
+
 export default Editor;
-*/
+
+
