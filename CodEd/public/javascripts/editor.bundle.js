@@ -23182,100 +23182,60 @@
 
 
 
-   class Editor{
-     constructor(el,value){
+   /**
+    * Class representing a text editor.
+    */
+   class Editor {
+     /**
+      * Create an Editor.
+      * @param {HTMLElement} el - The HTML element to attach the editor to.
+      * @param {string} value - The initial value of the editor.
+      */
+     constructor(el, value) {
+       /**
+        * @private
+        * @type {EditorView}
+        */
        const state = this.createState(value);
+       /**
+        * The view of the editor.
+        * @type {EditorView}
+        */
        this.view = new EditorView({
          parent: el,
          state
        });
      }
 
-     createState(value){
+     /**
+      * Create the state of the editor.
+      * @param {string} value - The initial value of the editor state.
+      * @returns {EditorState} The created editor state.
+      */
+     createState(value) {
        return EditorState.create({
          doc: value,
          extensions: extensions
        });
      }
 
-     updateState(str){
+     /**
+      * Update the state of the editor.
+      * @param {string} str - The new value to set for the editor state.
+      */
+     updateState(str) {
        var newState = EditorState.create({
-         doc: str, 
-         extensions:extensions
+         doc: str,
+         extensions: extensions
        });
        this.view.setState(newState);
        /*
        this.view.dispatch({
-       changes: {from: 0, to: this.view.state.doc.length , insert: str}
-       
-   })*/
-     }
-
-   }
-
-   /*
-
-   import Editor from "./editor.js";
-
-   const editor = new Editor(
-     document.querySelector("#app"),
-     "<div>hello world</div>"
-   );
-
-   editor.switchLang("plain");
-
-   */
-
-   /*
-   let startState = EditorState.create({
-     doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
-     extensions: extensions
-   })
-
-   let editor = new EditorView({
-     state: startState,
-     parent: document.querySelector('#editor')
-   });*/
-
-
-   /*
-   import { EditorView } from "@codemirror/view";
-   import { EditorState, Compartment } from "@codemirror/state";
-   import { html } from "@codemirror/lang-html";
-   import { defaultHighlightStyle } from "@codemirror/highlight";
-
-   // import imagePlugin from "./imagePlugin";
-
-   const language = new Compartment();
-
-   class Editor {
-     constructor(el, value) {
-       const state = this.createState(value);
-       this.view = new EditorView({
-         parent: el,
-         state
+         changes: {from: 0, to: this.view.state.doc.length , insert: str}
        });
-     }
-
-     createState(value) {
-       this.tabSize = new Compartment();
-       return EditorState.create({
-         doc: value,
-         extensions: [language.of(html()), defaultHighlightStyle]
-       });
-     }
-
-     switchLang(lang) {
-       const langPack = lang === "html" ? html() : [];
-       this.view.dispatch({
-         effects: language.reconfigure(langPack)
-       });
-       console.log("language should be switched by now");
+       */
      }
    }
-
-   export default Editor;
-   */
 
    //Temp editor if nothing is in the db.    
        const editor = new Editor(
@@ -23283,7 +23243,7 @@
        `public class Main(){\n public static void main(String args[]){\n\n}\n}`
      );
 
-
+   //save code to the database 
    function saveButtonEvent(){
        //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
        const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
@@ -23309,6 +23269,8 @@
        });
    }
 
+   //if code exists in the db this function will update the editor to 
+   // be filled with that saved code instead.
    async function textfromDb(){
      fetch('/users/current-user-data')
      .then(response => {
@@ -23328,32 +23290,14 @@
      });
      }
 
+   //statment to dynamically add event handler based on the window location
+   // to avoid conflicts with other event handlers for other views
    if(window.location.pathname === '/editor'){
     document.getElementById('saveButton').addEventListener('click', saveButtonEvent);
+    //Initial call to check if there is code in the database 
+    //see function for more details
     textfromDb();
     //setInterval(textfromDb,5000); TESTING
    }
-   /*
-    // Function to trigger Rollup bundling
-           function bundleScripts() {  
-
-               async function bundle() {
-                   const config = '../javascripts/rollup.config.mjs';
-                   // create a bundle
-                   const bundle = await rollup.rollup(config);
-
-                   // write the bundle to disk
-                   await bundle.write(config.output);
-
-                   console.log('Bundling complete!');
-               }
-
-               bundle().catch(err => {
-                   console.error(err);
-               });
-           }
-           // Attach event listener to the button
-           document.getElementById('updateState').addEventListener('click', bundleScripts)
-   */
 
 })();
