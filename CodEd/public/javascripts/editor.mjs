@@ -1,4 +1,4 @@
-import Editor from "./editorModule";
+import Editor from "../../model/editorModule";
 
 /* TESTSING
 //console.log(window.location.pathname)

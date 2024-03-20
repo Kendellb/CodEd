@@ -8,4 +8,4 @@ then
 fi
 
 # Run JSDoc with the specified files
-jsdoc model/user.js public/javascripts/editor.mjs public/javascripts/editorModule.js public/javascripts/homepage.js public/javascripts/rollup.config.mjs
+jsdoc model/user.js public/javascripts/editor.mjs model/editorModule.js public/javascripts/homepage.js public/javascripts/rollup.config.mjs
