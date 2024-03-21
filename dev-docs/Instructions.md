@@ -53,7 +53,8 @@ At the command line where the server was started, enter Ctrl-C to stop the serve
 
 - Cd into the the CodEd folder
 
-- run ```node jsdoc.js```
+- run
+  ```node jsdoc.js```
 
 - Navigate to the coverage folder `/coverage/lcov-report`
 - Open the index.html file in your browser
