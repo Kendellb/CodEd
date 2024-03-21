@@ -49,14 +49,11 @@ At the command line where the server was started, enter Ctrl-C to stop the serve
 
 # Generating API Documentation 
 
-Open a command prompt
+- Open a command prompt
 
-In any folder, enter a command following the template:
+- Cd into the the CodEd folder
 
-```
-jsdoc <path_to_file_1>.js <path_to_file_2>.js ...
+- run ```node jsdoc.js```
 
-jsdoc ...............(replace with files that have documentation)
-```
-
-From the folder in which `jsdoc` was executed, open the file out/index.html in a browser to view the generated documentation.
+- Navigate to the coverage folder `/coverage/lcov-report`
+- Open the index.html file in your browser
