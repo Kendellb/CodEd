@@ -179,5 +179,9 @@ test('Selenium editor test', loginWrongInput_selTest, 1000000);
 test('Selenium editor test', login_selTest, 1000000);
 
 /*
-
+save button test
+registration test showing that a new user has a main class with nothing in it 
+registration with the wrong input, user already exists
+login with a user that is not in the database
+login showing that code from the database is in the created editor. (Show this)
  */
