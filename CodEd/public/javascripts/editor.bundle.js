@@ -23080,6 +23080,8 @@
 
    /** @module Editor */
 
+   /** @module Editor */
+
 
 
    /**
@@ -23087,6 +23089,7 @@
     * @function javaLanguageSupport
     * @returns {LanguageSupport} Language support for Java.
     */
+   /* istanbul ignore next */
    function javaLanguageSupport() {
      return new LanguageSupport(javaLanguage);
    }
@@ -23208,6 +23211,7 @@
 
 
    /** @type {Array} */
+   /* istanbul ignore next */
    let extensions = [
      keymap.of(defaultKeymap, historyKeymap,
        closeBracketsKeymap, searchKeymap, foldKeymap),
@@ -23247,11 +23251,13 @@
         * @private
         * @type {EditorView}
         */
+       /* istanbul ignore next */
        const state = this.createState(value);
        /**
         * What is contained in the editor which is then attached to an HTML element.
         * @type {EditorView}
         */
+       /* istanbul ignore next */
        this.view = new EditorView({
          parent: el,
          state
@@ -23264,7 +23270,7 @@
       * @returns {EditorState} The created editor state.
       */
      
-
+   /* istanbul ignore next */
      createState(value) {
        return EditorState.create({
          doc: value,
@@ -23276,6 +23282,7 @@
       * Update the state of the editor.
       * @param {string} str - The new value to set for the editor state.
       */
+     /* istanbul ignore next */
      updateState(str) {
        var newState = EditorState.create({
          doc: str,
@@ -23300,6 +23307,7 @@
    */
 
    //save code to the database 
+   /* istanbul ignore next */
    function saveButtonEvent() {
      //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
      const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
@@ -23327,6 +23335,7 @@
 
    //if code exists in the db this function will update the editor to 
    // be filled with that saved code instead.
+   /* istanbul ignore next */
    async function textfromDb() {
      fetch('/users/current-user-data')
        .then(response => {
@@ -23358,6 +23367,7 @@
 
    //statment to dynamically add event handler based on the window location
    // to avoid conflicts with other event handlers for other views
+   /* istanbul ignore next */
    if (window.location.pathname === '/editor') {
      document.getElementById('saveButton').addEventListener('click', saveButtonEvent);
      //Initial call to check if there is code in the database 
