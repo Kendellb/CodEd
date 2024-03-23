@@ -23,14 +23,11 @@ const config = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
   collectCoverageFrom: [
-    "**/model/*.js",
-    "**/routes/*.js",
-    "**/public/javascripts/*{.js,.mjs}",
-    '!**/node_modules/**',
-    "!**/public/javascripts/*.bundle.js",
-    "!**/public/javascripts/rollup.config.js",
-    "!**/public/javascripts/homepage.js",
-    "!**/public/mdoel/editorModule.js"
+    "**../CodEd/model/*.js",
+    "**../CodEd/routes/*.js",
+    "**../CodEd/public/javascripts/*.js",
+    '!**../CodEd/node_modules/**',
+    "!**../CodEd/public/javascripts/*.bundle.js",
   ],
 
   // The directory where Jest should output its coverage files
@@ -45,7 +42,7 @@ const config = {
    */
 
   // Indicates which provider should be used to instrument code for coverage
-  //coverageProvider: "v8",
+  coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
