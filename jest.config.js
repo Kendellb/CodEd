@@ -28,9 +28,9 @@ const config = {
     "**/public/javascripts/*{.js,.mjs}",
     '!**/node_modules/**',
     "!**/public/javascripts/*.bundle.js",
-    "!**/public/javascripts/rollup.config.js",
+    "!**/public/javascripts/rollup.config.mjs",
     "!**/public/javascripts/homepage.js",
-    "!**/public/mdoel/editorModule.js"
+    "!**/CodEd/model/editorModule.js",
   ],
 
   // The directory where Jest should output its coverage files
@@ -45,7 +45,7 @@ const config = {
    */
 
   // Indicates which provider should be used to instrument code for coverage
-  //coverageProvider: "v8",
+  coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [

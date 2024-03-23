@@ -149,7 +149,6 @@ function javaLanguageSupport() {
 
 
 /** @type {Array} */
-/* istanbul ignore next */
 let extensions = [
   keymap.of(defaultKeymap, historyKeymap,
     closeBracketsKeymap, searchKeymap, foldKeymap),
@@ -206,6 +205,7 @@ class Editor {
    * @returns {EditorState} The created editor state.
    */
   
+
   createState(value) {
     return EditorState.create({
       doc: value,

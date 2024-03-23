@@ -38,7 +38,7 @@ router.post('/register', async function(req,res){
   } 
 
   catch (error) {
-    console.error(error);
+    console.error("Internal server error:", error);
     res.status(500).json({ message: 'Internal server error' });
   }
 })
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
           res.send('Invalid username');
       }
   } catch (error) {
-      console.error(error);
+      console.error("Internal server error:", error);
       res.status(500).send('Internal server error');
   }
 });

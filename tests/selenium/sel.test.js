@@ -2,9 +2,8 @@
 
 const {By,Builder} = require('selenium-webdriver');
 //For Presentation:
-const stepTime = 2000;
-//const stepTime = 0;
-
+//const stepTime = 2000;
+const stepTime = 0;
 // Function to pause execution for a specified duration
 async function pause(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -18,7 +17,6 @@ function generateRandomHex(length) {
   }
   return result;
 }
-
 
 
 async function reg_selTest() {
@@ -106,7 +104,6 @@ async function save_selTest() {
     await driver.executeScript("arguments[0].textContent = '';", editorText);
     await pause(stepTime); 
 
-    
     await editorText.sendKeys(
         `public class Main(){\n public static void main(String args[]){\n    
         System.out.println(\"Hello World I am from the Sel Test\");\n}\n}`
