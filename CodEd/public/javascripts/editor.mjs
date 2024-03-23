@@ -74,6 +74,36 @@ async function textfromDb() {
     });
 }
 
+async function runjava() {
+  try {
+      const userDataResponse = await fetch('/users/current-user-data');
+      if (!userDataResponse.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const javaCode = await userDataResponse.text();
+
+      const response = await fetch('/editor/runcode', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ code: javaCode })
+      });
+
+      if (!response.ok) {
+          throw new Error('Failed to execute Java code');
+      }
+
+      const output = await response.text(); 
+      console.log('Output:', output);
+      document.getElementById('output').innerText = output; 
+      
+  } catch (error) {
+      console.error('Error executing Java code:', error);
+  }
+}
+    
+
 //statment to dynamically add event handler based on the window location
 // to avoid conflicts with other event handlers for other views
 if (window.location.pathname === '/editor') {
@@ -81,5 +111,6 @@ if (window.location.pathname === '/editor') {
   //Initial call to check if there is code in the database 
   //see function for more details
   textfromDb()
+  document.getElementById('runButton').addEventListener('click', runjava);
   //setInterval(textfromDb,5000); TESTING
 }

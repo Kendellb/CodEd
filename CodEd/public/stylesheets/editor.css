@@ -1,2 +1,30 @@
-.cm-editor.cm-focused { outline: 2px solid cyan }
-.cm-editor .cm-content { font-family: "Consolas";}
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#editor {
+    margin-top: 0.625em; /* 10px equivalent in em */
+    content: 100%;
+}
+
+#output {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0.625em; /* 10px equivalent in em */
+    margin-top: 0.625em; /* 10px equivalent in em */
+    height: 12.5em; /* 200px equivalent in em */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow: hidden;
+}
+/* Button styles (adjust as needed) */
+button {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #0074D9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+

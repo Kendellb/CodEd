@@ -5,15 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodEd</title>
-    <link type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/editor.css">
   </head>
   <body>
-    <main>
-      <div id="editor" autofocus>
-        <!-- code editor goes here  -->
+      <div class="editor-container">
+        <div id="editor" autofocus>
+          <!-- code editor goes here  -->
+        </div>
+         <div id="output"></div>
       </div>
-      <button id="saveButton">Save</button> 
-    </main>
+    <button id="saveButton">Save</button> 
+    <button id="runButton">Run</button>
     <script src="../javascripts/editor.bundle.js"></script>
   </body>
 </html>
