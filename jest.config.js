@@ -23,11 +23,14 @@ const config = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
   collectCoverageFrom: [
-    "**../CodEd/model/*.js",
-    "**../CodEd/routes/*.js",
-    "**../CodEd/public/javascripts/*.js",
-    '!**../CodEd/node_modules/**',
-    "!**../CodEd/public/javascripts/*.bundle.js",
+    "**/model/*.js",
+    "**/routes/*.js",
+    "**/public/javascripts/*{.js,.mjs}",
+    '!**/node_modules/**',
+    "!**/public/javascripts/*.bundle.js",
+    "!**/public/javascripts/rollup.config.js",
+    "!**/public/javascripts/homepage.js",
+    "!**/public/mdoel/editorModule.js"
   ],
 
   // The directory where Jest should output its coverage files
