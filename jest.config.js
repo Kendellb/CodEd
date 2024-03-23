@@ -28,9 +28,9 @@ const config = {
     "**/public/javascripts/*{.js,.mjs}",
     '!**/node_modules/**',
     "!**/public/javascripts/*.bundle.js",
-    "!**/public/javascripts/rollup.config.js",
+    "!**/public/javascripts/rollup.config.mjs",
     "!**/public/javascripts/homepage.js",
-    "!**/public/model/editorModule.js"
+    "!**/CodEd/model/editorModule.js",
   ],
 
   // The directory where Jest should output its coverage files

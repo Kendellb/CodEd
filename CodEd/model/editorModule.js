@@ -1,4 +1,4 @@
-/** @module Editor */
+/** @module editorModule */
 
 /**
  * Creates and initializes a CodeMirror editor using the basic setup. using the config from CodeMirror Docs.
