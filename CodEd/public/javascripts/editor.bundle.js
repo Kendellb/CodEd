@@ -23078,7 +23078,7 @@
        baseTheme
    ];
 
-   /** @module Editor */
+   /** @module editorModule */
 
 
 
@@ -23299,7 +23299,11 @@
    }
    */
 
-   //save code to the database 
+   /**
+    * Function to handle click event of the save button.
+    * Saves user data to the server.
+    * @function saveButtonEvent
+    */
    function saveButtonEvent() {
      //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
      const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
@@ -23325,8 +23329,10 @@
        });
    }
 
-   //if code exists in the db this function will update the editor to 
-   // be filled with that saved code instead.
+   /**
+    * Function to fetch user data from the database and then create an editor with or without this data
+    * @function textfromDb
+    */
    async function textfromDb() {
      fetch('/users/current-user-data')
        .then(response => {
@@ -23337,6 +23343,7 @@
        })
        .then(userData => {
          console.log('Current user data:', userData);
+         //If there is userdata in the database create a editor with the contents from the db
          if (userData) {
            //editor.updateState(userData)
            new Editor(
@@ -23344,6 +23351,7 @@
              userData
            );
          }
+         //If there is no data create an editor with java main class and void method.
          else {
            new Editor(
              document.querySelector('#editor'),
