@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
  * @param {Function} next - The next function in the middleware chain.
  * @returns {void}
  */
-/* istanbul ignore next */
 userSchema.pre('save', function (next) {
     if (!this.uniqueID) {
         this.uniqueID = this.username + '-' + uuidv4().replace(/-/g, '').substring(0, 8);
