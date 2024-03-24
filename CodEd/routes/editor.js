@@ -36,7 +36,7 @@ router.post('/runcode', (req, res) => {
     const tempFileDir = `./tmpJava/${userId}`;
     if (!fs.existsSync(tempFileDir)) {
         // If it doesn't exist, create the directory
-        fs.mkdirSync(tempFileDir);
+        fs.mkdirSync(tempFileDir, { recursive: true });
         console.log(`Directory '${tempFileDir}' created successfully.`);
     } else {
         console.log(`Directory '${tempFileDir}' already exists.`);
