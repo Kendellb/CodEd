@@ -4,9 +4,10 @@ var User = require('../model/user');
 var session = require('express-session');
 
 router.use(session({
-    secret: 'mySecret', // Replace 'mySecret' with your actual secret
-    resave: false,
-    saveUninitialized: false
+  secret: 'secret', //unsecure change later.
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 3600000}
 }));
 
 /* GET users listing. */
