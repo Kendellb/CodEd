@@ -26,7 +26,8 @@ router.post('/runcode', (req, res) => {
           if (error) {
               console.error(`Compilation error: ${error.message}`);
               //return res.status(500).send('Compilation error');
-              return res.send(error.message).status(500);
+              const errorMessage = stderr.replace(new RegExp(tempFilePath, 'g'), 'Main.java');
+              return res.send(errorMessage).status(500);
           }
 
           console.log(`Compilation success: ${stdout}`);
