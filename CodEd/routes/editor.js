@@ -29,11 +29,11 @@ router.get('/', async function (req, res, next) {
 
 router.post('/runcode', (req, res) => {
     const javaCode = req.body.code;
-    const userId = req.session.user.uniqueID;
-    console.log('userId',userId);
+    const userID = req.session.user.uniqueID;
+    console.log('userId',userID);
 
-    const tempFilePath = `./tmpJava/${userId}/Main.java`;
-    const tempFileDir = `./tmpJava/${userId}`;
+    const tempFilePath = `./tmpJava/${userID}/Main.java`;
+    const tempFileDir = `./tmpJava/${userID}`;
     if (!fs.existsSync(tempFileDir)) {
         // If it doesn't exist, create the directory
         fs.mkdirSync(tempFileDir, { recursive: true });
@@ -59,7 +59,7 @@ router.post('/runcode', (req, res) => {
 
             console.log(`Compilation success: ${stdout}`);
 
-            exec(`java -classpath ./tmpJava/${userId} Main`, (error, stdout, stderr) => {
+            exec(`java -classpath ./tmpJava/${userID} Main`, (error, stdout, stderr) => {
                 if (error) {
                     console.error(`Execution error: ${error.message}`);
                     return res.status(500).send('Execution error');
