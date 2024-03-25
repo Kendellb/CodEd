@@ -11,9 +11,11 @@ router.use(session({
 }))
 
 /* GET users listing. */
+/*
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  //res.send('respond with a resource');
 });
+*/
 
 //POST for register a user 
 router.post('/register', async function(req,res){
