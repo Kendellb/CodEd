@@ -4,10 +4,11 @@ var User = require('../model/user');
 var session = require('express-session');
 
 router.use(session({
-    secret: 'mySecret', // Replace 'mySecret' with your actual secret
-    resave: false,
-    saveUninitialized: false
-}));
+  secret: 'secret', //unsecure change later.
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 3600000}
+}))
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,8 +23,8 @@ router.post('/register', async function(req,res){
 
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      //return res.status(400).json({ message: 'Username already exists' });
-      res.send("Username already exists")
+      //res.send("Username already exists").status(400);
+      res.status(400).send("Username already exists");
     }
     else{
 
@@ -33,12 +34,12 @@ router.post('/register', async function(req,res){
 
     //res.status(201).json({ message: 'User registered successfully', user: newUser });
     //redirct back to login to avoid bugs with session.
-    res.redirect('/users/login');
+    res.status(201).redirect('/users/login');
     }
   } 
 
   catch (error) {
-    console.error("Internal server error:", error);
+    //console.error("Internal server error:", error);
     res.status(500).json({ message: 'Internal server error' });
   }
 })
@@ -51,19 +52,19 @@ router.get('/login', function(req, res, next) {
   res.render('login');
 });
 
-//POST used to login set the session to the username and then redirect ot the code window
+//POST used to login set the session to the username and then redirect to the code window
 router.post('/login', async (req, res) => {
   const { username } = req.body;
   try {
       const foundUser = await User.findOne({ username });
       if (foundUser) {
           req.session.user = foundUser;
-          res.redirect('/editor');
+          res.status(201).redirect('/editor');
       } else {
-          res.send('Invalid username');
+          res.status(400).send("Invalid username");
       }
   } catch (error) {
-      console.error("Internal server error:", error);
+      //console.error("Internal server error:", error);
       res.status(500).send('Internal server error');
   }
 });
@@ -89,7 +90,7 @@ router.post('/updateUserData', async (req,res) =>{
 
     res.status(200).send('User data updated and saved successfully');
 } catch (error) {
-    console.error('Error updating user data:', error);
+    //console.error('Error updating user data:', error);
     res.status(500).send('Internal server error');
 }
 
@@ -112,10 +113,10 @@ router.get('/current-user-data', (req, res) => {
         return res.status(404).json({ error: 'User not found' });
       }
       const userCodeData = user.userCodeData;
-      res.send(userCodeData);
+      res.status(200).send(userCodeData);
     })
     .catch(error => {
-      console.error('Error fetching user:', error);
+      //console.error('Error fetching user:', error);
       res.status(500).json({ error: 'Internal server error' });
     });
 });
