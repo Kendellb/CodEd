@@ -14,6 +14,15 @@ app.use(session({
   cookie: {maxAge: 3600000}
 }))
 
+var app = express();
+
+app.use(session({
+  secret: 'secret', //unsecure change later.
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 3600000}
+}))
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var editorRouter = require('./routes/editor');
@@ -50,6 +59,7 @@ useNewUrlParser: true,
   .catch(err => console.error('MongoDB connection error:', err.message));
  
 app.use(express.json());  
+
 
 
 
