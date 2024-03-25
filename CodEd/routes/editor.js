@@ -64,7 +64,7 @@ router.post('/runcode', (req, res) => {
                     console.error(`Execution error: ${error.message}`);
                     return res.status(500).send('Execution error');
                 }
-
+                //get input
                 console.log(`Output: ${stdout}`);
                 res.send(stdout);
             });
