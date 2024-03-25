@@ -18,13 +18,17 @@
     overflow-y: auto; /* Enable vertical scrolling */
     overflow: hidden;
 }
-/* Button styles (adjust as needed) */
-button {
+.userInteraction{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+/* Button styles (adjust as needed) */button {
     margin: 10px;
     padding: 5px 10px;
-    background-color: #0074D9;
+    background-color: #7700d9;
     color: #fff;
     border: none;
     cursor: pointer;
+
 }
 
