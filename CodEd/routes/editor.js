@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('./users');
 var fs = require('fs');
-const { exec } = require('child_process');
+var { exec, spawn } = require('child_process');
 var session = require('express-session');
 
 router.use(session({
@@ -41,6 +41,7 @@ router.post('/runcode', (req, res) => {
     } else {
         console.log(`Directory '${tempFileDir}' already exists.`);
     }
+
     fs.writeFile(tempFilePath, javaCode, (err) => {
         //NEED TO SANITIZE DATA LATER FOR SECURITY
         if (err) {
@@ -50,46 +51,55 @@ router.post('/runcode', (req, res) => {
 
         console.log(`Java code saved to ${tempFilePath}`);
 
-        exec(`javac ${tempFilePath}`, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Compilation error: ${error.message}`);
-                //return res.status(500).send('Compilation error');
-                const errorMessage = stderr.replace(new RegExp(tempFilePath, 'g'), 'Main.java');
-                return res.send(errorMessage).status(500);
-            }
-
-            console.log(`Compilation success: `);
-
-            // Execute the Java program
-            const javaProcess = exec(`java -classpath ./tmpJava/${userID} Main`, (error, stdout, stderr) => {
-
-                if (error) {
-                    // Handle errors from the Java program
-                    javaProcess.stderr.on('data', (data) => {
-                        console.error(`Java program error: ${data}`);
-                        res.status(500).send(`Java program error: ${data}`);
-                    });
-                }
-                else {
-
-                    // Provide input to the Java program
-                    const inputData = "Input data\nAnother line\n"; // Example input data
-                    javaProcess.stdin.write(inputData);
-                    javaProcess.stdin.end(); // Close the input stream after writing all data
-
-                    // Handle output from the Java program
-                    javaProcess.stdout.on('data', (data) => {
-                        console.log(`Output: ${data}`);
-                        res.send(data);
-                    });
-                }
-            });
-            });
-        });
     });
 
 
-    module.exports = router;
+
+
+// Compile Java file
+const compileProcess = spawn('javac', [tempFilePath]);
+
+compileProcess.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  
+  compileProcess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+  
+  compileProcess.on('close', (code) => {
+    if (code === 0) {
+      console.log('Java file compiled successfully');
+  
+      // Run Java class file
+      const javaProcess = spawn(`java`, [`-classpath`,`./tmpJava/${userID}`, `Main`]);
+      const inputString = 'Input from Node.js';
+      javaProcess.stdin.write(inputString + '\n');
+      javaProcess.stdin.end();
+
+      javaProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+      });
+  
+      javaProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+      });
+  
+      javaProcess.on('close', (code) => {
+        console.log('Java process exited with code', code);
+      });
+    } else {
+      console.error('Error compiling Java file');
+    }
+  });
+
+
+
+});
+
+
+module.exports = router;
+
 
 //TODO
 // FIX IF THERE IS AN ERROR
