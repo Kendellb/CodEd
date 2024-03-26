@@ -30,7 +30,7 @@ router.get('/', async function (req, res, next) {
 router.post('/runcode', (req, res) => {
     const javaCode = req.body.code;
     const userID = req.session.user.uniqueID;
-    console.log('userId',userID);
+    console.log('userId', userID);
 
     const tempFilePath = `./tmpJava/${userID}/Main.java`;
     const tempFileDir = `./tmpJava/${userID}`;
@@ -42,6 +42,7 @@ router.post('/runcode', (req, res) => {
         console.log(`Directory '${tempFileDir}' already exists.`);
     }
     fs.writeFile(tempFilePath, javaCode, (err) => {
+        //NEED TO SANITIZE DATA LATER FOR SECURITY
         if (err) {
             console.error('Error saving Java code:', err);
             return res.status(500).send('Error saving Java code');
@@ -57,16 +58,24 @@ router.post('/runcode', (req, res) => {
                 return res.send(errorMessage).status(500);
             }
 
-            console.log(`Compilation success: ${stdout}`);
+            console.log(`Compilation success: `);
+
+            stdin.write("kendell");
+            stdin.end();
 
             exec(`java -classpath ./tmpJava/${userID} Main`, (error, stdout, stderr) => {
                 if (error) {
-                    console.error(`Execution error: ${error.message}`);
-                    return res.status(500).send('Execution error');
+                    //console.error(`Execution error: ${error.message}`);
+                    res.send(`Execution error: ${error.message}`).status(500);
                 }
-                //get input
-                console.log(`Output: ${stdout}`);
-                res.send(stdout);
+                else {
+                    //get input scanner class
+                    //reading a file
+                    //INFINITE LOOP
+                    //test common java errors
+                    console.log(`Output: ${stdout}`);
+                    res.send(stdout);
+                }
             });
         });
     });
