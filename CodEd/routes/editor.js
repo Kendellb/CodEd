@@ -60,25 +60,40 @@ router.post('/runcode', (req, res) => {
 
             console.log(`Compilation success: `);
 
-            stdin.write("kendell");
-            stdin.end();
+            // Execute the Java program
+            const javaProcess = exec(`java -classpath ./tmpJava/${userID} Main`, (error, stdout, stderr) => {
 
-            exec(`java -classpath ./tmpJava/${userID} Main`, (error, stdout, stderr) => {
                 if (error) {
-                    //console.error(`Execution error: ${error.message}`);
-                    res.send(`Execution error: ${error.message}`).status(500);
+                    // Handle errors from the Java program
+                    javaProcess.stderr.on('data', (data) => {
+                        console.error(`Java program error: ${data}`);
+                        res.status(500).send(`Java program error: ${data}`);
+                    });
                 }
                 else {
-                    //get input scanner class
-                    //reading a file
-                    //INFINITE LOOP
-                    //test common java errors
-                    console.log(`Output: ${stdout}`);
-                    res.send(stdout);
+
+                    // Provide input to the Java program
+                    const inputData = "Input data\nAnother line\n"; // Example input data
+                    javaProcess.stdin.write(inputData);
+                    javaProcess.stdin.end(); // Close the input stream after writing all data
+
+                    // Handle output from the Java program
+                    javaProcess.stdout.on('data', (data) => {
+                        console.log(`Output: ${data}`);
+                        res.send(data);
+                    });
                 }
+            });
             });
         });
     });
-});
 
-module.exports = router;
+
+    module.exports = router;
+
+//TODO
+// FIX IF THERE IS AN ERROR
+//get input scanner class
+//reading a file
+//INFINITE LOOP
+//test common java errors
