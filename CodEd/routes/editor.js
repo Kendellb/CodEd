@@ -4,6 +4,8 @@ var User = require('./users');
 var fs = require('fs');
 var { exec, spawn } = require('child_process');
 var session = require('express-session');
+const readlinePromises = require('node:readline/promises');
+const { stdin } = require('process');
 
 router.use(session({
     secret: 'secret', //unsecure change later.
@@ -27,8 +29,16 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-router.post('/runcode', (req, res) => {
+router.post('/getInput', (req, res) => {
+    const userInput = req.body.userInput;
+    // Here you can process the input further, or send a response back to the client
+    res.send(userInput).status(200);
+});
+
+router.post('/runcode', async (req, res) => {
     const javaCode = req.body.code;
+    const userInput = req.body.userInput;
+    console.log('User input:', userInput);
     const userID = req.session.user.uniqueID;
     console.log('userId', userID);
 
@@ -53,45 +63,59 @@ router.post('/runcode', (req, res) => {
 
     });
 
+    const rl = readlinePromises.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+}); 
+   
+
+
+    // Compile Java file
+    const compileProcess = spawn('javac', [tempFilePath]);
+    res.setHeader('Content-Type', 'text/html');
+    compileProcess.stdout.on('data', (data) => {
+        console.log(`stdoutc: ${data}`);
+    });
+
+    compileProcess.stderr.on('data', (data) => {
+        console.error(`stderrc: ${data}`);
+    });
+
+    compileProcess.on('close', async (code) => {
+        if (code === 0) {
+            console.log('Java file compiled successfully');
+
+            // Run Java class file
+            const javaProcess = spawn(`java`, [`-classpath`, `./tmpJava/${userID}`, `Main`]);
+
+            //const inputString = 'Input from Node.js';
+            //if(javaProcess.stdin){
+            //const answer = await rl.question('What is your favorite food? ');
+            javaProcess.stdin.write(userInput + '\n');
+            javaProcess.stdin.end();
+            //}
 
 
 
-// Compile Java file
-const compileProcess = spawn('javac', [tempFilePath]);
+    javaProcess.stdout.on('data', (data) => {
+        console.log(`stdoutj: ${data}`);
+        res.write(data);
+    });
 
-compileProcess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-  
-  compileProcess.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
-  
-  compileProcess.on('close', (code) => {
-    if (code === 0) {
-      console.log('Java file compiled successfully');
-  
-      // Run Java class file
-      const javaProcess = spawn(`java`, [`-classpath`,`./tmpJava/${userID}`, `Main`]);
-      const inputString = 'Input from Node.js';
-      javaProcess.stdin.write(inputString + '\n');
-      javaProcess.stdin.end();
+    javaProcess.stderr.on('data', (data) => {
+        console.error(`stderrj: ${data}`);
+        res.write(data);
+    });
 
-      javaProcess.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
-      });
-  
-      javaProcess.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
-      });
-  
-      javaProcess.on('close', (code) => {
+    javaProcess.on('close', (code) => {
         console.log('Java process exited with code', code);
-      });
-    } else {
-      console.error('Error compiling Java file');
-    }
-  });
+        res.end();
+    });
+} else {
+    console.error('Error compiling Java file');
+}
+
+    });
 
 
 

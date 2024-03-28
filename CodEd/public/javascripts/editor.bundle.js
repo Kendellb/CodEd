@@ -23372,12 +23372,18 @@
          }
          const javaCode = await userDataResponse.text();
 
+       
+           var input = document.getElementById("userInput");
+           var userInput = input.value;
+           
+
+
          const response = await fetch('/editor/runcode', {
              method: 'POST',
              headers: {
                  'Content-Type': 'application/json'
              },
-             body: JSON.stringify({ code: javaCode })
+             body: JSON.stringify({ code: javaCode ,userInput: userInput})
          });
 
          if (!response.ok) {
