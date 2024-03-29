@@ -1,57 +1,85 @@
+import Editor from "../../model/editorModule";
+
+/* TESTSING
+//console.log(window.location.pathname)
+//statment to dynamically add event handler based on the window location
+// to avoid conflicts with other event handlers for other views
+if(window.location.pathname === '/users/login'){
+//document.getElementById('UserLoginButton').addEventListener('click', textfromDb);
+}
+*/
+
 /**
- * Creates and initializes a CodeMirror editor using the basic setup. using the config from CodeMirror Docs.
- *
- * The imports are packages installed using npm and are under the codemirror main package
- * in the imports {} are functions that each package contains. These fucntions are extentions 
- * that edit the state of the codemirror window.
- * 
- * 
- * @type {EditorState} Represents the initial state of the CodeMirror editor.
- *
- * @type {EditorView} Represents a CodeMirror editor instance.
+ * Function to handle click event of the save button.
+ * Saves user data to the server.
+ * @function saveButtonEvent
  */
-import {EditorState} from "@codemirror/state";
-import {EditorView, keymap,lineNumbers,highlightActiveLineGutter,highlightSpecialChars,
-drawSelection,dropCursor,rectangularSelection,crosshairCursor,highlightActiveLine} from "@codemirror/view";
-import { java,javaLanguage } from "@codemirror/lang-java";
-import {bracketMatching, foldGutter, indentOnInput, syntaxHighlighting, 
-  defaultHighlightStyle, foldKeymap,LanguageSupport} from "@codemirror/language";
-import {defaultKeymap,history,historyKeymap} from "@codemirror/commands";
-import {closeBrackets,closeBracketsKeymap} from "@codemirror/autocomplete";
-import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+function saveButtonEvent() {
+  //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
+  const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
+  console.log(userData);
 
-
-
-function javaLanguageSupport (){
-  return new LanguageSupport(javaLanguage);
+  // Send an HTTP POST request to the server with the user data
+  fetch('/users/updateUserData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userData })
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('User data updated successfully');
+      } else {
+        console.error('Failed to update user data');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
-let startState = EditorState.create({
-  doc: `public class Main(){\n public static void main(String args[]){\n\n}\n}`,
-  extensions: [
-    keymap.of(defaultKeymap,historyKeymap,
-      closeBracketsKeymap,searchKeymap,foldKeymap), 
-    java(),
-    lineNumbers(),
-    highlightActiveLineGutter(),
-    bracketMatching(),
-    closeBrackets(),
-    syntaxHighlighting(defaultHighlightStyle,{fallback: true}),
-    history(),
-    foldGutter(),
-    indentOnInput(),
-    highlightSelectionMatches(),
-    highlightSpecialChars(),
-    drawSelection(),
-    dropCursor(),
-    rectangularSelection(),
-    crosshairCursor(),
-    highlightActiveLine(),
-    javaLanguageSupport(),
-  ]
-})
+/**
+ * Function to fetch user data from the database and then create an editor with or without this data
+ * @function textfromDb
+ */
+async function textfromDb() {
+  fetch('/users/current-user-data')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(userData => {
+      console.log('Current user data:', userData);
+      //If there is userdata in the database create a editor with the contents from the db
+      if (userData) {
+        //editor.updateState(userData)
+        const editor = new Editor(
+          document.querySelector('#editor'),
+          userData
+        );
+      }
+      //If there is no data create an editor with java main class and void method.
+      else {
+        const editor = new Editor(
+          document.querySelector('#editor'),
+          `public class Main(){\n public static void main(String args[]){\n\n}\n}`
+        );
+      }
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+}
 
-let editor = new EditorView({
-  state: startState,
-  parent: document.querySelector('#editor')
-});
+//statment to dynamically add event handler based on the window location
+// to avoid conflicts with other event handlers for other views
+if (window.location.pathname === '/editor') {
+  document.getElementById('saveButton').addEventListener('click', saveButtonEvent)
+  //Initial call to check if there is code in the database 
+  //see function for more details
+  textfromDb()
+  //setInterval(textfromDb,5000); TESTING
+}

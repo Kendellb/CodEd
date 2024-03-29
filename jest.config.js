@@ -23,19 +23,27 @@ const config = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
   collectCoverageFrom: [
-    "**model/*.js",
+    "**/model/*.js",
     "**/routes/*.js",
-    "**/public/javascripts/*.js",
-    "**/node_modules/**"
+    "**/public/javascripts/*{.js,.mjs}",
+    '!**/node_modules/**',
+    "!**/public/javascripts/*.bundle.js",
+    "!**/public/javascripts/rollup.config.mjs",
+    "!**/public/javascripts/homepage.js",
+    "!**/model/editorModule.js",
+    "!**/public/javascripts/editor.mjs"
   ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  /*
+  coveragePathIgnorePatterns: [
+     "/node_modules/",
+     "public/javascripts/editor.bundle.js"
+   ],
+   */
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",

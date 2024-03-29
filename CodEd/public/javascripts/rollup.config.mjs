@@ -9,11 +9,14 @@
  * @property {Array<Plugin>} plugins - An array of Rollup plugins to use during bundling.
  */
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from '@rollup/plugin-commonjs';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 export default {
   input: "./editor.mjs",
   output: {
     file: "./public/javascripts/editor.bundle.js",
-    format: "cjs",
+    format: "iife",
+    name: "editor",
   },
-  plugins: [nodeResolve()],
+  plugins: [nodeResolve({browser: true})],
 };
