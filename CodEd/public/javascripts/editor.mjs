@@ -1,4 +1,6 @@
+import io from 'socket.io-client';
 import Editor from "../../model/editorModule";
+import { TerminalUI } from "../../model/terminalUI";
 
 
 /* TESTSING
@@ -9,6 +11,45 @@ if(window.location.pathname === '/users/login'){
 //document.getElementById('UserLoginButton').addEventListener('click', textfromDb);
 }
 */
+
+const serverAddress = 'http://localhost:8080';
+
+
+function connectToSocket(serverAddress) {
+  return new Promise(res => {
+    const socket = io(serverAddress);
+    res(socket);
+  });
+}
+
+function startTerminal(container, socket) {
+  // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
+  const terminal = new TerminalUI(socket);
+
+  // Attach created terminal to a DOM element.
+  terminal.attachTo(container);
+
+  // When terminal attached to DOM, start listening for input, output events.
+  // Check TerminalUI startListening() function for details.
+  terminal.startListening();
+  console.log(`Socket connected to server: ${serverAddress}`);
+  console.log(`Terminal attached to container: ${container.id}`);
+}
+
+function start() {
+  const container = document.getElementById("terminal-container");
+  // Connect to socket and when it is available, start terminal.
+  connectToSocket(serverAddress).then(socket => {
+    startTerminal(container, socket);
+
+    console.log("Server running and running")
+  });
+}
+// Better to start on DOMContentLoaded. So, we know terminal-container is loaded
+start();
+
+
+
 
 /**
  * Function to handle click event of the save button.

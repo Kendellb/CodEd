@@ -4,8 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
+var cors = require('cors');
 
 var app = express();
+
+
 
 app.use(session({
   secret: 'secret', //unsecure change later.
@@ -14,14 +17,7 @@ app.use(session({
   cookie: {maxAge: 3600000}
 }))
 
-var app = express();
 
-app.use(session({
-  secret: 'secret', //unsecure change later.
-  resave: false,
-  saveUninitialized: false,
-  cookie: {maxAge: 3600000}
-}))
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -78,5 +74,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(cors({
+  origin: "localhost:8080",
+  credentials: true
+}
+))
 
 module.exports = app;
