@@ -41,12 +41,12 @@ function start() {
   // Connect to socket and when it is available, start terminal.
   connectToSocket(serverAddress).then(socket => {
     startTerminal(container, socket);
-
-    console.log("Server running and running")
   });
 }
 // Better to start on DOMContentLoaded. So, we know terminal-container is loaded
 start();
+
+
 
 
 

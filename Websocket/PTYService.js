@@ -18,11 +18,14 @@ class PTY {
    * Spawn an instance of pty with a selected shell.
    */
   startPtyProcess() {
-    this.ptyProcess = pty.spawn(this.shell, [], {
+    this.ptyProcess = pty.spawn('java', [`-classpath`, `../CodEd/tmpJava/kendell-83dab21e`, `Main`], {
       name: "xterm-color",
-      cwd: process.env.HOME, // Which path should terminal start
+      cols:80,
+      rows:30,
+      cwd: process.cwd(), // Which path should terminal start
       env: process.env // Pass environment variables
     });
+    
 
     // Add a "data" event listener.
     this.ptyProcess.on("data", data => {

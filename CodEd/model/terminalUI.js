@@ -1,5 +1,3 @@
-// TerminalUI.js
-
 import { Terminal } from "xterm";
 
 export class TerminalUI {
@@ -51,8 +49,8 @@ export class TerminalUI {
   attachTo(container) {
     this.terminal.open(container);
     // Default text to display on terminal.
-    this.terminal.write("Terminal Connected");
-    this.terminal.write("");
+    //this.terminal.write("Terminal Connected");
+    //this.terminal.write("");
     this.prompt();
   }
 
