@@ -5529,7 +5529,7 @@
 	 * Module exports.
 	 */
 
-	var socket$1 = Socket$1;
+	var socket$2 = Socket$1;
 
 	/**
 	 * Socket constructor.
@@ -6262,7 +6262,7 @@
 	  return filteredUpgrades;
 	};
 
-	lib.exports = socket$1;
+	lib.exports = socket$2;
 
 	/**
 	 * Exports parser
@@ -6274,7 +6274,7 @@
 
 	var libExports$1 = lib.exports;
 
-	var socket = {exports: {}};
+	var socket$1 = {exports: {}};
 
 	var componentEmitter = {exports: {}};
 
@@ -6564,7 +6564,7 @@
 	var hasRequiredSocket;
 
 	function requireSocket () {
-		if (hasRequiredSocket) return socket.exports;
+		if (hasRequiredSocket) return socket$1.exports;
 		hasRequiredSocket = 1;
 		(function (module, exports) {
 			/**
@@ -7004,8 +7004,8 @@
 			  this.flags.binary = binary;
 			  return this;
 			}; 
-		} (socket));
-		return socket.exports;
+		} (socket$1));
+		return socket$1.exports;
 	}
 
 	/**
@@ -31062,9 +31062,6 @@
 
 	var xtermExports = xterm.exports;
 
-	// TerminalUI.js
-
-
 	class TerminalUI {
 	  constructor(socket) {
 	    this.terminal = new xtermExports.Terminal();
@@ -31114,8 +31111,8 @@
 	  attachTo(container) {
 	    this.terminal.open(container);
 	    // Default text to display on terminal.
-	    this.terminal.write("Terminal Connected");
-	    this.terminal.write("");
+	    //this.terminal.write("Terminal Connected");
+	    //this.terminal.write("");
 	    this.prompt();
 	  }
 
@@ -31134,18 +31131,20 @@
 	*/
 
 	const serverAddress = 'http://localhost:8080';
+	let socket = null; // Maintain a single socket connection
+	let terminal = null; // Maintain a single terminal instance
 
 
 	function connectToSocket(serverAddress) {
 	  return new Promise(res => {
-	    const socket = io(serverAddress);
+	    socket = io(serverAddress);
 	    res(socket);
 	  });
 	}
 
 	function startTerminal(container, socket) {
 	  // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
-	  const terminal = new TerminalUI(socket);
+	  terminal = new TerminalUI(socket);
 
 	  // Attach created terminal to a DOM element.
 	  terminal.attachTo(container);
@@ -31162,12 +31161,48 @@
 	  // Connect to socket and when it is available, start terminal.
 	  connectToSocket(serverAddress).then(socket => {
 	    startTerminal(container, socket);
-
-	    console.log("Server running and running");
 	  });
 	}
 	// Better to start on DOMContentLoaded. So, we know terminal-container is loaded
 	start();
+
+	async function sendStartJavaProcessMessage(userId) {
+	  try {
+	    const userDataResponse = await fetch('/users/current-user-data');
+	    if (!userDataResponse.ok) {
+	      throw new Error('Network response was not ok');
+	    }
+	    const javaCode = await userDataResponse.text();
+
+	    const response = await fetch('/editor/runcode', {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({ code: javaCode})
+	    });
+	    //console.log(response);
+	    const container = document.getElementById("terminal-container");
+
+	    
+
+	    // Send message to start Java process through the existing socket connection
+	    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userId }));
+	    console.log("Starting Java process for user with ID:", userId);
+
+	    if (!response.ok) {
+	      throw new Error('Failed to execute Java code');
+	    }
+	  } catch (error) {
+	    console.error('Error executing Java code:', error);
+	  }
+	}
+
+
+
+
+
+
 
 
 
@@ -31237,41 +31272,6 @@
 	    });
 	}
 
-	async function runjava() {
-	  try {
-	      const userDataResponse = await fetch('/users/current-user-data');
-	      if (!userDataResponse.ok) {
-	          throw new Error('Network response was not ok');
-	      }
-	      const javaCode = await userDataResponse.text();
-
-	    
-	        var input = document.getElementById("userInput");
-	        var userInput = input.value;
-	        
-
-
-	      const response = await fetch('/editor/runcode', {
-	          method: 'POST',
-	          headers: {
-	              'Content-Type': 'application/json'
-	          },
-	          body: JSON.stringify({ code: javaCode ,userInput: userInput})
-	      });
-
-	      if (!response.ok) {
-	          throw new Error('Failed to execute Java code');
-	      }
-
-	      const output = await response.text(); 
-	      console.log('Output:', output);
-	      document.getElementById('output').innerText = output; 
-	      
-	  } catch (error) {
-	      console.error('Error executing Java code:', error);
-	  }
-	}
-	    
 
 	//statment to dynamically add event handler based on the window location
 	// to avoid conflicts with other event handlers for other views
@@ -31280,8 +31280,15 @@
 	  //Initial call to check if there is code in the database 
 	  //see function for more details
 	  textfromDb();
-	  document.getElementById('runButton').addEventListener('click', runjava);
+	  //document.getElementById('runButton').addEventListener('click', runjava);
 	  //setInterval(textfromDb,5000); TESTING
+
+	  // Button click event listener
+	  document.getElementById('runButton').addEventListener('click', () => {
+	    const userId = `kendell-83dab21e`; // Function to retrieve userId from session need to get this 
+	    sendStartJavaProcessMessage(userId);
+	  });
+
 	}
 
 })();

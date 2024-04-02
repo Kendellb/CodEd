@@ -6,32 +6,87 @@ const pty = require("node-pty");
 class PTY {
   constructor(socket) {
     // Setting default terminals based on user os
-    this.shell = os.platform() === "win32" ? "powershell.exe" : "bash";
+    //this.shell = os.platform() === "win32" ? "powershell.exe" : "bash";
     this.ptyProcess = null;
     this.socket = socket;
 
     // Initialize PTY process.
-    this.startPtyProcess();
+    //this.startPtyProcess();
   }
 
   /**
    * Spawn an instance of pty with a selected shell.
    */
   startPtyProcess() {
-    this.ptyProcess = pty.spawn('java', [`-classpath`, `../CodEd/tmpJava/kendell-83dab21e`, `Main`], {
-      name: "xterm-color",
-      cols:80,
-      rows:30,
-      cwd: process.cwd(), // Which path should terminal start
-      env: process.env // Pass environment variables
-    });
-    
+    //this.ptyProcess = pty.spawn('java', [`-classpath`, `../CodEd/tmpJava/kendell-83dab21e`, `Main`], {
+    /*
+  this.ptyProcess = pty.spawn('xterm', [], {
+    name: "xterm-color",
+    cols:80,
+    rows:30,
+    cwd: process.cwd(), // Which path should terminal start
+    env: process.env // Pass environment variables
+  });
+  
+  
+  // Add a "data" event listener.
+  this.ptyProcess.on("data", data => {
+    // Whenever terminal generates any data, send that output to socket.io client to display on UI
+    this.sendToClient(data);
+  });
+  */
+  }
 
-    // Add a "data" event listener.
-    this.ptyProcess.on("data", data => {
-      // Whenever terminal generates any data, send that output to socket.io client to display on UI
+  startJavaProcess(userID) {
+    // Use userId as needed in your logic
+    // Example usage:
+    console.log(`Starting Java process for user with ID: ${userID}`);
+
+    
+    const tempFilePath = `../CodEd/tmpJava/${userID}/Main.java`;
+    // Compile the Java source file using javac
+    const javacProcess = pty.spawn('javac', [tempFilePath],{
+      name: "xterm-color",
+          cols: 80,
+          rows: 30,
+          cwd: process.cwd(),
+          env: process.env
+    });
+
+    javacProcess.on('data', (data) => {
+      const errorMessage = data.toString(); // Convert buffer to string
+      console.error(errorMessage);
+      // Send error message to frontend
+      //res.status(500).send(errorMessage);
       this.sendToClient(data);
     });
+
+
+    javacProcess.on('close', (code) => {
+       if (this.ptyProcess) {
+          this.ptyProcess.removeAllListeners('data'); // Remove existing data event listener
+        }
+      console.log(`javac process exited with code ${code}`);
+        console.log("CLOSE")
+        // Compilation successful, start the Java process
+        this.ptyProcess = pty.spawn('java', ['-classpath', `../CodEd/tmpJava/${userID}`, 'Main'], {
+          name: "xterm-color",
+          cols: 80,
+          rows: 30,
+          cwd: process.cwd(),
+          env: process.env
+        });
+
+        this.ptyProcess.on("data", data => {
+          // Send output to socket.io client
+          this.sendToClient(data);
+        });
+      
+    });
+    //this.ptyProcess.on("data", data => {
+      // Whenever terminal generates any data, send that output to socket.io client to display on UI
+      //this.sendToClient(data);
+    //})
   }
 
   /**
