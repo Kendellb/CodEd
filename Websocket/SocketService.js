@@ -41,10 +41,12 @@ class SocketService {
           console.log(`UserId in SS: ${userId}`);
 
       }
-      this.socket.on("input",input => {
+      
+  });
+
+  this.socket.on("input",input => {
         this.pty.write(input);
       })
-  });
 
       // Attach any event listeners which runs if any event is triggered from socket.io client
       // For now, we are only adding "input" event, where client sends the strings you type on terminal UI.
