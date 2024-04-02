@@ -58,11 +58,16 @@ class PTY {
       console.error(errorMessage);
       // Send error message to frontend
       //res.status(500).send(errorMessage);
+      //EMIT THE PATH
       this.sendToClient(data);
+      //console.log(`Error Message: ${data}`);
     });
 
 
-    javacProcess.on('close', (code) => {
+    javacProcess.on('exit', (code) => {
+      console.log(`Code: ${code}`);
+      if(code === 0){
+        //not nessaary 
        if (this.ptyProcess) {
           this.ptyProcess.removeAllListeners('data'); // Remove existing data event listener
         }
@@ -81,7 +86,13 @@ class PTY {
           // Send output to socket.io client
           this.sendToClient(data);
         });
-      
+        this.ptyProcess.on('exit', data => {
+          console.log("JAVA STOPPED RUNNING");
+        })
+      }
+      else{
+        console.log("An Error has occured")
+      }
     });
     //this.ptyProcess.on("data", data => {
       // Whenever terminal generates any data, send that output to socket.io client to display on UI

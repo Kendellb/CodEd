@@ -31183,12 +31183,11 @@
 	    });
 	    //console.log(response);
 	    const container = document.getElementById("terminal-container");
-
 	    
 
 	    // Send message to start Java process through the existing socket connection
 	    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userId }));
-	    console.log("Starting Java process for user with ID:", userId);
+	    //console.log("Starting Java process for user with ID:", userId);
 
 	    if (!response.ok) {
 	      throw new Error('Failed to execute Java code');
@@ -31286,9 +31285,12 @@
 	  // Button click event listener
 	  document.getElementById('runButton').addEventListener('click', () => {
 	    const userId = `kendell-83dab21e`; // Function to retrieve userId from session need to get this 
+	    //CHANGE THIS
 	    sendStartJavaProcessMessage(userId);
 	  });
 
 	}
+
+	//TO DO
 
 })();
