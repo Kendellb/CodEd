@@ -31285,6 +31285,7 @@
 
 	}
 
-	//TO DO
+	//TO DO 
+	//Get the userID from the session.
 
 })();
