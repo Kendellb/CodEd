@@ -8,15 +8,10 @@
     content: 100%;
 }
 
-#output {
+#terminal-container {
     background-color: #000;
     color: #fff;
     font-family: 'Courier New', Courier, monospace;
-    padding: 0.625em; /* 10px equivalent in em */
-    margin-top: 0.625em; /* 10px equivalent in em */
-    height: 12.5em; /* 200px equivalent in em */
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow: hidden;
 }
 .userInteraction{
     display: grid;

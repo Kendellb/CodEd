@@ -54,12 +54,14 @@ class PTY {
     });
 
     javacProcess.on('data', (data) => {
-      const errorMessage = data.toString(); // Convert buffer to string
+      const errorMessage = data.toString();
+      // Replace occurrences of tempFilePath with 'Main.java'
+      const replacedErrorMessage = errorMessage.replace(new RegExp(tempFilePath, 'g'), 'Main.java');
       console.error(errorMessage);
       // Send error message to frontend
       //res.status(500).send(errorMessage);
       //EMIT THE PATH
-      this.sendToClient(data);
+      this.sendToClient(replacedErrorMessage);
       //console.log(`Error Message: ${data}`);
     });
 
@@ -106,8 +108,12 @@ class PTY {
    */
 
   write(data) {
-    this.ptyProcess.write(data);
+    if (this.ptyProcess) {
+      this.ptyProcess.write(data); // Only write data if ptyProcess is not null
+    } else {
+      console.error("PTY process is null. Unable to write data.");
   }
+}
 
   sendToClient(data) {
     // Emit data to socket.io client in an event "output"

@@ -31130,21 +31130,21 @@
 	}
 	*/
 
+	//GLOBALS
 	const serverAddress = 'http://localhost:8080';
-	let socket = null; // Maintain a single socket connection
-	let terminal = null; // Maintain a single terminal instance
+	let socket = null;
 
 
 	function connectToSocket(serverAddress) {
 	  return new Promise(res => {
-	    socket = io(serverAddress);
+	     socket = io(serverAddress);
 	    res(socket);
 	  });
 	}
 
 	function startTerminal(container, socket) {
 	  // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
-	  terminal = new TerminalUI(socket);
+	  const terminal = new TerminalUI(socket);
 
 	  // Attach created terminal to a DOM element.
 	  terminal.attachTo(container);
@@ -31163,8 +31163,7 @@
 	    startTerminal(container, socket);
 	  });
 	}
-	// Better to start on DOMContentLoaded. So, we know terminal-container is loaded
-	start();
+
 
 	async function sendStartJavaProcessMessage(userId) {
 	  try {
@@ -31179,11 +31178,13 @@
 	      headers: {
 	        'Content-Type': 'application/json'
 	      },
-	      body: JSON.stringify({ code: javaCode})
+	      body: JSON.stringify({ code: javaCode })
 	    });
 	    //console.log(response);
 	    const container = document.getElementById("terminal-container");
-	    
+
+
+
 
 	    // Send message to start Java process through the existing socket connection
 	    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userId }));
@@ -31196,15 +31197,6 @@
 	    console.error('Error executing Java code:', error);
 	  }
 	}
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * Function to handle click event of the save button.
@@ -31288,6 +31280,8 @@
 	    //CHANGE THIS
 	    sendStartJavaProcessMessage(userId);
 	  });
+	  // Better to start on DOMContentLoaded. So, we know terminal-container is loaded
+	  start();
 
 	}
 
