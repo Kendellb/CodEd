@@ -69,5 +69,8 @@ module.exports = router;
 //TODO
 //reading a file
 //works with a file stored on my machine need to have a file upload to have it on the server.
+//and then tell them it is in the same folder so "./text.txt" to get the text file
+//^^ This is insecure only want them to read files in there folder.
+//When addind sanitaztion check for that
 //INFINITE LOOP
 //control c to exit
