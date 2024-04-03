@@ -67,8 +67,7 @@ module.exports = router;
 
 
 //TODO
-// FIX IF THERE IS AN ERROR
-//get input scanner class
 //reading a file
+//works with a file stored on my machine need to have a file upload to have it on the server.
 //INFINITE LOOP
-//test common java errors
+//control c to exit

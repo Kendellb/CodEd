@@ -170,3 +170,4 @@ if (window.location.pathname === '/editor') {
 }
 
 //TO DO 
+//Get the userID from the session.
