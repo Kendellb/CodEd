@@ -18,37 +18,46 @@ let terminalInitialized = false;
 let socket = null;
 
 
+/**
+ * Connects to a WebSocket server.
+ * @param {string} serverAddress - The address of the WebSocket server.
+ * @returns {Promise<Socket>} - A Promise that resolves to the socket connection.
+ */
 function connectToSocket(serverAddress) {
   return new Promise(res => {
-     socket = io(serverAddress);
+    socket = io(serverAddress);
     res(socket);
   });
 }
 
+/**
+ * Starts a terminal interface.
+ * @param {HTMLElement} container - The DOM element to which the terminal will be attached.
+ * @param {Socket} socket - The WebSocket socket connection.
+ */
 function startTerminal(container, socket) {
-  // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
   const terminal = new TerminalUI(socket);
-
-  // Attach created terminal to a DOM element.
   terminal.attachTo(container);
-
-  // When terminal attached to DOM, start listening for input, output events.
-  // Check TerminalUI startListening() function for details.
   terminal.startListening();
-  console.log(`Socket connected to server: ${serverAddress}`);
+  console.log(`Socket connected to server: ${socket.io.uri}`);
   console.log(`Terminal attached to container: ${container.id}`);
 }
 
+/**
+ * Starts the application by connecting to the WebSocket server and initializing the terminal.
+ */
 function start() {
   const container = document.getElementById("terminal-container");
-  // Connect to socket and when it is available, start terminal.
   connectToSocket(serverAddress).then(socket => {
     startTerminal(container, socket);
     terminalInitialized = true; // Set terminal as initialized
   });
 }
 
-
+/**
+ * Sends a message to start a Java process.
+ * @param {string} userId - The ID of the user for whom the Java process is started.
+ */
 async function sendStartJavaProcessMessage(userId) {
   try {
     const userDataResponse = await fetch('/users/current-user-data');
@@ -64,15 +73,10 @@ async function sendStartJavaProcessMessage(userId) {
       },
       body: JSON.stringify({ code: javaCode })
     });
-    //console.log(response);
+
     const container = document.getElementById("terminal-container");
 
-
-
-
-    // Send message to start Java process through the existing socket connection
     socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userId }));
-    //console.log("Starting Java process for user with ID:", userId);
 
     if (!response.ok) {
       throw new Error('Failed to execute Java code');
@@ -81,6 +85,7 @@ async function sendStartJavaProcessMessage(userId) {
     console.error('Error executing Java code:', error);
   }
 }
+
 
 /**
  * Function to handle click event of the save button.

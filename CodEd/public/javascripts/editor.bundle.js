@@ -31062,17 +31062,23 @@
 
 	var xtermExports = xterm.exports;
 
+	/**
+	 * Represents a terminal user interface.
+	 */
 	class TerminalUI {
+	  /**
+	   * Creates a TerminalUI instance.
+	   * @param {SocketIO.Socket} socket - The socket.io client socket.
+	   */
 	  constructor(socket) {
+	    /** @type {Terminal} */
 	    this.terminal = new xtermExports.Terminal();
-
-	   
-
+	    /** @type {SocketIO.Socket} */
 	    this.socket = socket;
 	  }
 
 	  /**
-	   * Attach event listeners for terminal UI and socket.io client
+	   * Attach event listeners for terminal UI and socket.io client.
 	   */
 	  startListening() {
 	    this.terminal.onData(data => this.sendInput(data));
@@ -31084,6 +31090,7 @@
 
 	  /**
 	   * Print something to terminal UI.
+	   * @param {string} text - The text to print.
 	   */
 	  write(text) {
 	    this.terminal.write(text);
@@ -31098,24 +31105,24 @@
 
 	  /**
 	   * Send whatever you type in Terminal UI to PTY process in server.
-	   * @param {*} input Input to send to server
+	   * @param {string} input - Input to send to server.
 	   */
 	  sendInput(input) {
 	    this.socket.emit("input", input);
 	  }
 
 	  /**
-	   *
-	   * @param {HTMLElement} container HTMLElement where xterm can attach terminal ui instance.
+	   * Attach the terminal UI to a container element.
+	   * @param {HTMLElement} container - The HTMLElement where xterm can attach the terminal UI instance.
 	   */
 	  attachTo(container) {
 	    this.terminal.open(container);
-	    // Default text to display on terminal.
-	    //this.terminal.write("Terminal Connected");
-	    //this.terminal.write("");
 	    this.prompt();
 	  }
 
+	  /**
+	   * Clear the terminal UI.
+	   */
 	  clear() {
 	    this.terminal.clear();
 	  }
@@ -31135,36 +31142,45 @@
 	let socket = null;
 
 
+	/**
+	 * Connects to a WebSocket server.
+	 * @param {string} serverAddress - The address of the WebSocket server.
+	 * @returns {Promise<Socket>} - A Promise that resolves to the socket connection.
+	 */
 	function connectToSocket(serverAddress) {
 	  return new Promise(res => {
-	     socket = io(serverAddress);
+	    socket = io(serverAddress);
 	    res(socket);
 	  });
 	}
 
+	/**
+	 * Starts a terminal interface.
+	 * @param {HTMLElement} container - The DOM element to which the terminal will be attached.
+	 * @param {Socket} socket - The WebSocket socket connection.
+	 */
 	function startTerminal(container, socket) {
-	  // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
 	  const terminal = new TerminalUI(socket);
-
-	  // Attach created terminal to a DOM element.
 	  terminal.attachTo(container);
-
-	  // When terminal attached to DOM, start listening for input, output events.
-	  // Check TerminalUI startListening() function for details.
 	  terminal.startListening();
-	  console.log(`Socket connected to server: ${serverAddress}`);
+	  console.log(`Socket connected to server: ${socket.io.uri}`);
 	  console.log(`Terminal attached to container: ${container.id}`);
 	}
 
+	/**
+	 * Starts the application by connecting to the WebSocket server and initializing the terminal.
+	 */
 	function start() {
 	  const container = document.getElementById("terminal-container");
-	  // Connect to socket and when it is available, start terminal.
 	  connectToSocket(serverAddress).then(socket => {
 	    startTerminal(container, socket);
 	  });
 	}
 
-
+	/**
+	 * Sends a message to start a Java process.
+	 * @param {string} userId - The ID of the user for whom the Java process is started.
+	 */
 	async function sendStartJavaProcessMessage(userId) {
 	  try {
 	    const userDataResponse = await fetch('/users/current-user-data');
@@ -31180,15 +31196,10 @@
 	      },
 	      body: JSON.stringify({ code: javaCode })
 	    });
-	    //console.log(response);
+
 	    const container = document.getElementById("terminal-container");
 
-
-
-
-	    // Send message to start Java process through the existing socket connection
 	    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userId }));
-	    //console.log("Starting Java process for user with ID:", userId);
 
 	    if (!response.ok) {
 	      throw new Error('Failed to execute Java code');
@@ -31197,6 +31208,7 @@
 	    console.error('Error executing Java code:', error);
 	  }
 	}
+
 
 	/**
 	 * Function to handle click event of the save button.
