@@ -19,11 +19,12 @@ router.get('/', async function (req, res, next) {
     //res.render('codeEditor', { title: 'Express' });
     // Retrieve the session user
     const sessionUser = req.session.user;
+    const sessionUsername = req.session.username;
     console.log("EDITOR SESSION: ", sessionUser);
     //res.render('codeEditor', { user: sessionUser });
     if (sessionUser) {
         //User is logged in, you can use sessionUser here
-        res.render('codeEditor', { user: sessionUser });
+        res.render('codeEditor', { user: sessionUser , username: sessionUsername});
     } else {
         res.redirect('/users/login');
     }
