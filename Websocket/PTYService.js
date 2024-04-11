@@ -10,33 +10,9 @@ class PTY {
     //this.shell = os.platform() === "win32" ? "powershell.exe" : "bash";
     this.ptyProcess = null;
     this.socket = socket;
-
-    // Initialize PTY process.
-    //this.startPtyProcess();
   }
 
-  /**
-   * Spawn an instance of pty with a selected shell.
-   */
-  startPtyProcess() {
-    //this.ptyProcess = pty.spawn('java', [`-classpath`, `../CodEd/tmpJava/kendell-83dab21e`, `Main`], {
-    /*
-  this.ptyProcess = pty.spawn('xterm', [], {
-    name: "xterm-color",
-    cols:80,
-    rows:30,
-    cwd: process.cwd(), // Which path should terminal start
-    env: process.env // Pass environment variables
-  });
   
-  
-  // Add a "data" event listener.
-  this.ptyProcess.on("data", data => {
-    // Whenever terminal generates any data, send that output to socket.io client to display on UI
-    this.sendToClient(data);
-  });
-  */
-  }
 
   startJavaProcess(userID) {
     // Use userId as needed in your logic
@@ -97,10 +73,6 @@ class PTY {
         console.log("An Error has occured")
       }
     });
-    //this.ptyProcess.on("data", data => {
-      // Whenever terminal generates any data, send that output to socket.io client to display on UI
-      //this.sendToClient(data);
-    //})
   }
 
   /**
