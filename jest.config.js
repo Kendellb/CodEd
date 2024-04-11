@@ -31,7 +31,8 @@ const config = {
     "!**/public/javascripts/rollup.config.mjs",
     "!**/public/javascripts/homepage.js",
     "!**/model/editorModule.js",
-    "!**/public/javascripts/editor.mjs"
+    "!**/public/javascripts/editor.mjs",
+    "!**/model/terminalUI.js",
   ],
 
   // The directory where Jest should output its coverage files

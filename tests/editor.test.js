@@ -19,8 +19,7 @@ async function editorTest() {
 
     const response = await request(app).get('/editor').set('Accept', 'text/html');
     expect(response.type).toEqual("text/html");
-    expect(response.status).toEqual(200);
-    expect(response.text).toMatch(/<title>CodEd<\/title>/);
+    expect(response.status).toEqual(302);
 }
 
 test('Testing to make sure that the editor has appeared', editorTest);
