@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var User = require('./users');
 var fs = require('fs');
-var { exec, spawn } = require('child_process');
 var session = require('express-session');
-const readlinePromises = require('node:readline/promises');
-const { stdin } = require('process');
 
 router.use(session({
     secret: 'secret', //unsecure change later.
@@ -20,7 +16,8 @@ router.get('/', async function (req, res, next) {
     // Retrieve the session user
     const sessionUser = req.session.user;
     const sessionUsername = req.session.username;
-    console.log("EDITOR SESSION: ", sessionUser);
+    const sessionUserID = req.session.uniqueID;
+    //console.log("EDITOR SESSION: ", sessionUser);
     //res.render('codeEditor', { user: sessionUser });
     if (sessionUser) {
         //User is logged in, you can use sessionUser here
@@ -30,11 +27,7 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-router.post('/getInput', (req, res) => {
-    const userInput = req.body.userInput;
-    // Here you can process the input further, or send a response back to the client
-    res.send(userInput).status(200);
-});
+
 
 router.post('/runcode', async (req, res) => {
     const javaCode = req.body.code;
@@ -46,9 +39,9 @@ router.post('/runcode', async (req, res) => {
     if (!fs.existsSync(tempFileDir)) {
         // If it doesn't exist, create the directory
         fs.mkdirSync(tempFileDir, { recursive: true });
-        console.log(`Directory '${tempFileDir}' created successfully.`);
+        //console.log(`Directory '${tempFileDir}' created successfully.`);
     } else {
-        console.log(`Directory '${tempFileDir}' already exists.`);
+        //console.log(`Directory '${tempFileDir}' already exists.`);
     }
 
     fs.writeFile(tempFilePath, javaCode, (err) => {
@@ -60,6 +53,10 @@ router.post('/runcode', async (req, res) => {
         console.log(`Java code saved to ${tempFilePath}`);
         res.status(200).send('Java code saved successfully');
     });
+});
+
+router.get('/get-userID', (req,res) =>{
+    res.send(req.session.userID).status(200);
 });
 
 

@@ -39,8 +39,8 @@ function startTerminal(container, socket) {
   const terminal = new TerminalUI(socket);
   terminal.attachTo(container);
   terminal.startListening();
-  console.log(`Socket connected to server: ${socket.io.uri}`);
-  console.log(`Terminal attached to container: ${container.id}`);
+  //console.log(`Socket connected to server: ${socket.io.uri}`);
+  //console.log(`Terminal attached to container: ${container.id}`);
 }
 
 /**
@@ -95,7 +95,7 @@ async function sendStartJavaProcessMessage(userId) {
 function saveButtonEvent() {
   //console.log(Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n"));
   const userData = Array.from(document.querySelectorAll(".cm-line")).map(e => e.textContent).join("\n");
-  console.log(userData);
+  //console.log(userData);
 
   // Send an HTTP POST request to the server with the user data
   fetch('/users/updateUserData', {
@@ -130,7 +130,7 @@ async function textfromDb() {
       return response.text();
     })
     .then(userData => {
-      console.log('Current user data:', userData);
+      //console.log('Current user data:', userData);
       //If there is userdata in the database create a editor with the contents from the db
       if (userData) {
         //editor.updateState(userData)
@@ -143,7 +143,7 @@ async function textfromDb() {
       else {
         const editor = new Editor(
           document.querySelector('#editor'),
-          `public class Main(){\n public static void main(String args[]){\n\n}\n}`
+          `public class Main{\n public static void main(String args[]){\n\n}\n}`
         );
       }
     })
@@ -151,6 +151,24 @@ async function textfromDb() {
       console.error('There was a problem with the fetch operation:', error);
     });
 }
+
+async function getUserID() {
+  try {
+    const response = await fetch('/editor/get-userID');
+    if (!response.ok) {
+      throw new Error('Failed to fetch userID');
+    }
+    const userID = await response.text(); // Assuming the response is plain text
+    return userID;
+  } catch (error) {
+    console.error('Error fetching userID:', error);
+    return null;
+  }
+}
+
+
+// Usage
+
 
 
 //statment to dynamically add event handler based on the window location
@@ -164,10 +182,17 @@ if (window.location.pathname === '/editor') {
   //setInterval(textfromDb,5000); TESTING
 
   // Button click event listener
-  document.getElementById('runButton').addEventListener('click', () => {
-    const userId = `kendell-83dab21e`; // Function to retrieve userId from session need to get this 
-    //CHANGE THIS
-    sendStartJavaProcessMessage(userId);
+  document.getElementById('runButton').addEventListener('click', async () => {
+    try {
+      const userID = await getUserID();
+      if (userID) {
+        sendStartJavaProcessMessage(userID);
+      } else {
+        console.log('UserID not available');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   });
   // Better to start on DOMContentLoaded. So, we know terminal-container is loaded
   start();
