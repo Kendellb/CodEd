@@ -2,6 +2,7 @@
 
 const os = require("os");
 const pty = require("node-pty");
+const path = require('path');
 
 class PTY {
   constructor(socket) {
@@ -43,13 +44,13 @@ class PTY {
     console.log(`Starting Java process for user with ID: ${userID}`);
 
     
-    const tempFilePath = `../CodEd/tmpJava/${userID}/Main.java`;
+    const tempFilePath = path.resolve(__dirname, `Code/${userID}/Main.java`);
     // Compile the Java source file using javac
     const javacProcess = pty.spawn('javac', [tempFilePath],{
       name: "xterm-color",
           cols: 80,
           rows: 30,
-          cwd: process.cwd(),
+          cwd: path.resolve(__dirname, `Code/${userID}/`),
           env: process.env
     });
 
@@ -76,11 +77,11 @@ class PTY {
       console.log(`javac process exited with code ${code}`);
         console.log("CLOSE")
         // Compilation successful, start the Java process
-        this.ptyProcess = pty.spawn('java', ['-classpath', `../CodEd/tmpJava/${userID}`, 'Main'], {
+        this.ptyProcess = pty.spawn('java', ['Main'], {
           name: "xterm-color",
           cols: 80,
           rows: 30,
-          cwd: process.cwd(),
+          cwd: path.resolve(__dirname, `Code/${userID}/`),
           env: process.env
         });
 

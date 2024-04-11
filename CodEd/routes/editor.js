@@ -33,8 +33,8 @@ router.post('/runcode', async (req, res) => {
     const javaCode = req.body.code;
     const userID = req.session.user.uniqueID;
 
-    const tempFilePath = `./tmpJava/${userID}/Main.java`;
-    const tempFileDir = `./tmpJava/${userID}`;
+    const tempFilePath = `../Websocket/Code/${userID}/Main.java`;
+    const tempFileDir = `../Websocket/Code/${userID}`;
     
     if (!fs.existsSync(tempFileDir)) {
         // If it doesn't exist, create the directory
