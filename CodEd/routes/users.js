@@ -67,8 +67,8 @@ router.post('/login', async (req, res) => {
           res.status(201).redirect('/editor');
           }
           if(foundUser.accountType === 'instructor' ){
-            //res.status(201).redirect('/instructor');
-            res.send("Instructor View");
+            res.status(201).redirect('/instructor');
+            //res.send("Instructor View");
           }
       } else {
           res.status(400).send("Invalid username");

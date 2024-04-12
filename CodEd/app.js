@@ -22,6 +22,7 @@ app.use(session({
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var editorRouter = require('./routes/editor');
+var instructorRouter = require('./routes/instructor');
 
 //MongoDB connection requirements
 var mongoose = require('mongoose');
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/editor', editorRouter);
+app.use('/instructor', instructorRouter);
 
 app.post('/login',usersRouter);
 app.post('/register',usersRouter);
