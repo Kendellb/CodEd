@@ -1,0 +1,23 @@
+/* Button styles (adjust as needed) */
+button {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #7700d9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+}
+
+header {
+    display: flex; /* Arrange child elements horizontally */
+    align-items: center; /* Vertically center child elements */
+    background-color: #f0f0f0; /* Background color of the header */
+    padding: 20px; /* Padding around the header content */
+    border-bottom: 2px solid #ccc; /* Border line at the bottom of the header */
+}
+
+/* Style for the heading */
+header h1 {
+    margin-left: 10px; /* Add space between the link and the heading */
+}

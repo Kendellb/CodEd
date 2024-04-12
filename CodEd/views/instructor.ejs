@@ -2,27 +2,43 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodEd</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/instructor.css">
+    <title>CodEd</title>
 </head>
 
 <header>
-  <a href="http://localhost:3000/">
-    <img src="imgs/favicon.ico" alt="CodEd">
-  </a>
-  <h1>CodEd</h1>
+    <a href="http://localhost:3000/">
+        <img src="imgs/favicon.ico" alt="CodEd">
+    </a>
+    <h1>CodEd</h1>
 </header>
 
 <body>
-   <p id="username"><%= username %></p>
+    <p id="username">
+        <%= username %>
+    </p>
     <button id="editor">Editor</button>
     <ul id="userList">
-        <li><a href="http://localhost:3000/editor">User ID 1</a></li>
-        <li><a href="http://localhost:3000/editor">User ID 2</a></li>
-        <li><a href="http://localhost:3000/editor">User ID 3</a></li>
-      </ul>
+        <h2>User Uploads</h2>
+        <ul id="userList">
+            <li>
+                <a href="http://localhost:3000/editor">User ID 1</a>
+                <span>April 10, 2024</span>
+            </li>
+            <li>
+                <a href="http://localhost:3000/editor">User ID 2</a>
+                <span>March 25, 2024</span>
+            </li>
+            <li>
+                <a href="http://localhost:3000/editor">User ID 3</a>
+                <span>February 18, 2024</span>
+            </li>
+        </ul>
+
+    </ul>
 
     <script src="/javascripts/goToEditor.js"></script>
 </body>
