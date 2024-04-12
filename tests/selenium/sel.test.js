@@ -93,7 +93,7 @@ async function save_selTest() {
     await pause(stepTime); 
 
     const userNameInput = await driver.findElement(By.id('username'));
-    await userNameInput.sendKeys('kendell-test');
+    await userNameInput.sendKeys('sel-test');
     await pause(stepTime); 
 
     const submitLoginButton = await driver.findElement(By.id('UserLoginButton'));
@@ -157,7 +157,7 @@ async function login_selTest() {
     await pause(stepTime); 
 
     const userNameInput = await driver.findElement(By.id('username'));
-    await userNameInput.sendKeys('kendell-db');
+    await userNameInput.sendKeys('sel-db');
     await pause(stepTime); 
 
     const submitLoginButton = await driver.findElement(By.id('UserLoginButton'));

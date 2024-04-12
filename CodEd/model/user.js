@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
     },
     userCodeData: {
         type: String,
+    },
+    accountType: {
+        type: String,
+        enum: ['student', 'instructor'],
+        required: true
     }
 });
 
