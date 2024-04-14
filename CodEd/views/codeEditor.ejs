@@ -25,6 +25,10 @@
     <div class="SRbutton">
       <button id="saveButton">Save</button>
       <button id="runButton">Run</button>
+      <% if (accountType === 'student') { %>
+        <input type="text" id="instructorNameInput" placeholder="Enter instructor's username">
+        <button id="submit">Submit</button>
+    <% } %>
     </div>
   </div>
   <div class="editor-container">

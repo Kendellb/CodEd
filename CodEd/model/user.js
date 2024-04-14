@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['student', 'instructor'],
         required: true
+    },
+     userUploads: {
+        type: [String], // Assuming this is an array of upload IDs or paths
+        default: [],
+        select: false // Hide this field by default
     }
 });
 
@@ -39,6 +44,15 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', function (next) {
     if (!this.uniqueID) {
         this.uniqueID = this.username + '-' + uuidv4().replace(/-/g, '').substring(0, 8);
+    }
+    next();
+});
+
+userSchema.pre('save', function(next) {
+    if (this.accountType === 'instructor') {
+        if (!this.userUploads) {
+            this.userUploads = [];
+        }
     }
     next();
 });

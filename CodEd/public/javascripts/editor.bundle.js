@@ -31281,7 +31281,7 @@
 	    if (!response.ok) {
 	      throw new Error('Failed to fetch userID');
 	    }
-	    const userID = await response.text(); // Assuming the response is plain text
+	    const userID = await response.text(); 
 	    return userID;
 	  } catch (error) {
 	    console.error('Error fetching userID:', error);
@@ -31303,6 +31303,7 @@
 	  //if student do this 
 	  textfromDb();
 	  //if instructor do something else
+	  
 	  //document.getElementById('runButton').addEventListener('click', runjava);
 	  //setInterval(textfromDb,5000); TESTING
 
@@ -31319,7 +31320,44 @@
 	      console.error('Error:', error);
 	    }
 	  });
-	  // Better to start on DOMContentLoaded. So, we know terminal-container is loaded
+	  document.getElementById('submit').addEventListener('click', async () => {
+	    try {
+	        const instructorNameInput = document.getElementById('instructorNameInput');
+	        const instructorName = instructorNameInput.value.trim(); // Get the value of the input field
+	        console.log(`Instructor Name: ${instructorName}`);
+
+	        fetch('/users/current-user-data')
+	    .then(response => {
+	      if (!response.ok) {
+	        throw new Error('Network response was not ok');
+	      }
+	      return response.text();
+	    })
+	    .then(async userData => {
+	      //console.log('Current user data:', userData);
+	      //If there is userdata in the database create a editor with the contents from the db
+	      const uploadData = userData;
+	        const response = await fetch('/editor/upload', {
+	            method: 'POST',
+	            headers: {
+	      'Content-Type': 'application/json'
+	    },
+	            body: JSON.stringify({uploadData,instructorName})
+	        });
+
+	        const data = await response.json();
+	        alert(data.message); // Display success or error message
+	    })
+	    .catch(error => {
+	      console.error('There was a problem with the fetch operation:', error);
+	    });
+	    } catch (error) {
+	        console.error(error);
+	        alert('An error occurred. Please try again later.');
+	    }
+	});
+
+
 	  start();
 
 	}

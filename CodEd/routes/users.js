@@ -63,6 +63,7 @@ router.post('/login', async (req, res) => {
           req.session.user = foundUser;
           req.session.username = foundUser.username;
           req.session.userID = foundUser.uniqueID;
+          req.session.accountType = foundUser.accountType;
           if(foundUser.accountType === 'student'){
           res.status(201).redirect('/editor');
           }
