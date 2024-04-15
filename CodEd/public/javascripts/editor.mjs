@@ -86,9 +86,9 @@ async function sendStartJavaProcessMessage(userId) {
   }
 }
 
-async function sendStartJavaProcessMessageUpload(userID,index) {
+async function sendStartJavaProcessMessageUpload(userID, index) {
   try {
-     const url = `/users/upload-data?index=${index}`;
+    const url = `/users/upload-data?index=${index}`;
     const uploadDataResponse = await fetch(url);
     if (!uploadDataResponse.ok) {
       throw new Error('Network response was not ok');
@@ -100,12 +100,12 @@ async function sendStartJavaProcessMessageUpload(userID,index) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ code: javaCode})
+      body: JSON.stringify({ code: javaCode })
     });
 
     const container = document.getElementById("terminal-container");
 
-    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userID}));
+    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userID }));
 
     if (!response.ok) {
       throw new Error('Failed to execute Java code');
@@ -186,24 +186,24 @@ async function textfromDbUpload(index) {
   const url = `/users/upload-data?index=${index}`;
 
   fetch(url)
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.text();
-      })
-      .then(uploadData => {
-          // If there is uploadData in the database, create an editor with the contents from the database
-          if (uploadData) {
-              const editor = new Editor(
-                  document.querySelector('#editor'),
-                  uploadData
-              );
-          }
-      })
-      .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-      });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(uploadData => {
+      // If there is uploadData in the database, create an editor with the contents from the database
+      if (uploadData) {
+        const editor = new Editor(
+          document.querySelector('#editor'),
+          uploadData
+        );
+      }
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
 }
 
 
@@ -232,7 +232,7 @@ async function getUploadUserID() {
       throw new Error('Failed to fetch userID');
     }
     const userID = await response.text();
-    console.log("USERID",userID);
+    console.log("USERID", userID);
     return userID;
   } catch (error) {
     console.error('Error fetching userID:', error);
@@ -276,7 +276,7 @@ if (window.location.pathname === '/editor') {
     try {
       const instructorNameInput = document.getElementById('instructorNameInput');
       const instructorName = instructorNameInput.value.trim(); // Get the value of the input field
-      console.log(`Instructor Name: ${instructorName}`);
+      //console.log(`Instructor Name: ${instructorName}`);
 
       fetch('/users/current-user-data')
         .then(response => {
@@ -310,13 +310,13 @@ if (window.location.pathname === '/editor') {
 
           //console.log("Current time and date:", formattedDateTime);
 
-         
-      const userID = await getUserID();
-      console.log(userID);
-      if (!userID) {
-        console.log('UserID not available');
-      }
-        
+
+          const userID = await getUserID();
+          //console.log(userID);
+          if (!userID) {
+            console.log('UserID not available');
+          }
+
 
           //upload the user data from the database to an instructor.
           const response = await fetch('/editor/upload', {
@@ -324,7 +324,7 @@ if (window.location.pathname === '/editor') {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ uploadData, instructorName, formattedDateTime})
+            body: JSON.stringify({ uploadData, instructorName, formattedDateTime })
           });
 
           const data = await response.json();
@@ -347,7 +347,10 @@ if (window.location.pathname === '/editor') {
 async function getIndexFromServer() {
   try {
     // Make fetch request to /index route
-    const response = await fetch('/index');
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlIndex = urlParams.get('index');
+    const response = await fetch(`/editor/index?index=${urlIndex}`);
+    console.log(response);
 
     if (!response.ok) {
       throw new Error('Failed to fetch index');
@@ -355,6 +358,7 @@ async function getIndexFromServer() {
 
     // Parse response text as JSON
     const index = await response.text();
+    console.log(`INDEXGET: ${index}`);
     return index;
   } catch (error) {
     console.error('Error fetching index:', error);
@@ -363,22 +367,31 @@ async function getIndexFromServer() {
 }
 
 if (window.location.pathname === '/editor/studentSubmissonEditor') {
-  start();
-  textfromDbUpload(0);
-
-   document.getElementById('runButton').addEventListener('click', async () => {
+  (async () => {
     try {
-      const userID = await getUploadUserID();
-      if (userID) {
-        sendStartJavaProcessMessageUpload(userID,0);
-      } else {
-        console.log('UserID not available');
-      }
+      const index = await getIndexFromServer();
+      console.log(`INDEX: ${index}`);
+      textfromDbUpload(index);
+      start();
+
+      document.getElementById('runButton').addEventListener('click', async () => {
+        try {
+          const userID = await getUploadUserID();
+          if (userID) {
+            sendStartJavaProcessMessageUpload(userID, index);
+          } else {
+            console.log('UserID not available');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error fetching index and updating editor:', error);
     }
-  });
+  })();
 }
+
 
 
 

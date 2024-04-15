@@ -155,7 +155,7 @@ router.get('/upload-data', async (req,res) =>{
 
     // Retrieve the index from the query string
     const index = parseInt(req.query.index);
-    console.log(`index: ${index}`);
+    //console.log(`index: ${index}`);
 
     // Check if the index is valid
     if (isNaN(index) || index < 0 || index >= instructor.userUploads.length) {

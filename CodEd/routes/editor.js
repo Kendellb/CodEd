@@ -101,7 +101,6 @@ router.get('/get-uploadID', (req, res) => {
 
 router.get('/index', (req,res) => {
     const index = req.query.index;
-    console.log("MEMEMEME",index);
     res.status(200).send(index);
 });
 
@@ -153,11 +152,11 @@ router.get('/studentSubmissonEditor', async function (req, res, next) {
     //res.render('codeEditor', { title: 'Express' });
     // Retrieve the session user
     const sessionUser = req.session.user;
-    console.log(sessionUser);
+    //console.log(sessionUser);
     const sessionUsername = req.session.username;
     const sessionAccountType = req.session.accountType;
     const userID = req.query.userID;
-    console.log(userID);
+    //console.log(userID);
 
     if (sessionAccountType === 'instructor') {
         //User is logged in, you can use sessionUser here
