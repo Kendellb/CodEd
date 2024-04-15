@@ -21,9 +21,11 @@ router.get('/', async function (req, res, next) {
     const sessionAccountType = req.session.accountType;
     //console.log("EDITOR SESSION: ", sessionUser);
     //res.render('codeEditor', { user: sessionUser });
+
+    const instructors = await User.find({ accountType: 'instructor' }, 'username'); // Filter users by accountType
     if (sessionUser) {
         //User is logged in, you can use sessionUser here
-        res.render('codeEditor', { user: sessionUser, username: sessionUsername, accountType: sessionAccountType });
+        res.render('codeEditor', { user: sessionUser, username: sessionUsername, accountType: sessionAccountType, instructors: instructors });
     } else {
         res.redirect('/users/login');
     }

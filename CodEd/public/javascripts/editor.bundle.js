@@ -31397,9 +31397,10 @@
 	  });
 	  document.getElementById('submit').addEventListener('click', async () => {
 	    try {
-	      const instructorNameInput = document.getElementById('instructorNameInput');
-	      const instructorName = instructorNameInput.value.trim(); // Get the value of the input field
-	      //console.log(`Instructor Name: ${instructorName}`);
+	      const instructorNameSelect = document.getElementById('instructorNameSelect');
+	      const instructorName = instructorNameSelect.value.trim(); // Get the selected value of the <select> element
+	      console.log(`Instructor Name: ${instructorName}`);
+
 
 	      fetch('/users/current-user-data')
 	        .then(response => {
