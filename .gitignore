@@ -131,3 +131,6 @@ dist
 
 #MongoDB
 *.mongodb.js
+
+#Java files
+Websocket/Code

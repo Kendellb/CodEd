@@ -8,7 +8,7 @@ router.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {maxAge: 3600000}
-}))
+}));
 
 /* GET users listing. */
 /*
@@ -61,6 +61,8 @@ router.post('/login', async (req, res) => {
       const foundUser = await User.findOne({ username });
       if (foundUser) {
           req.session.user = foundUser;
+          req.session.username = foundUser.username;
+          req.session.userID = foundUser.uniqueID;
           res.status(201).redirect('/editor');
       } else {
           res.status(400).send("Invalid username");

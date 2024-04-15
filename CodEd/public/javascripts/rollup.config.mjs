@@ -11,6 +11,7 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from '@rollup/plugin-commonjs';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
+
 export default {
   input: "./editor.mjs",
   output: {
@@ -18,5 +19,8 @@ export default {
     format: "iife",
     name: "editor",
   },
-  plugins: [nodeResolve({browser: true})],
+  plugins: [
+    nodeResolve({browser: true}),
+    commonjs(),
+  ],
 };

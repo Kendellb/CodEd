@@ -1,2 +1,45 @@
-.cm-editor.cm-focused { outline: 2px solid cyan }
-.cm-editor .cm-content { font-family: "Consolas";}
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#editor {
+    margin-top: 0.625em;
+    /* 10px equivalent in em */
+    content: 100%;
+}
+
+#terminal-container {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.userInteraction {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* Button styles (adjust as needed) */
+button {
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #7700d9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+}
+
+header {
+    display: flex; /* Arrange child elements horizontally */
+    align-items: center; /* Vertically center child elements */
+    background-color: #f0f0f0; /* Background color of the header */
+    padding: 20px; /* Padding around the header content */
+    border-bottom: 2px solid #ccc; /* Border line at the bottom of the header */
+}
+
+/* Style for the heading */
+header h1 {
+    margin-left: 10px; /* Add space between the link and the heading */
+}

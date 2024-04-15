@@ -4,8 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
+var cors = require('cors');
 
 var app = express();
+
+
 
 app.use(session({
   secret: 'secret', //unsecure change later.
@@ -13,6 +16,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {maxAge: 3600000}
 }))
+
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,7 +27,6 @@ var editorRouter = require('./routes/editor');
 var mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://test:test@coded.p7136aw.mongodb.net/?retryWrites=true&w=majority&appName=CodEd";
-
 
 
 // view engine setup
@@ -54,6 +58,7 @@ app.use(express.json());
 
 
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -69,5 +74,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(cors({
+  origin: "localhost:8080",
+  credentials: true
+}
+))
 
 module.exports = app;
