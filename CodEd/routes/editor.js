@@ -17,13 +17,13 @@ router.get('/', async function (req, res, next) {
     // Retrieve the session user
     const sessionUser = req.session.user;
     const sessionUsername = req.session.username;
-    const sessionUserID = req.session.uniqueID;
+    const UserID = req.session.uniqueID;
     const sessionAccountType = req.session.accountType;
     //console.log("EDITOR SESSION: ", sessionUser);
     //res.render('codeEditor', { user: sessionUser });
     if (sessionUser) {
         //User is logged in, you can use sessionUser here
-        res.render('codeEditor', { user: sessionUser , username: sessionUsername, accountType: sessionAccountType});
+        res.render('codeEditor', { user: sessionUser, username: sessionUsername, accountType: sessionAccountType });
     } else {
         res.redirect('/users/login');
     }
@@ -37,7 +37,7 @@ router.post('/runcode', async (req, res) => {
 
     const tempFilePath = `../Websocket/Code/${userID}/Main.java`;
     const tempFileDir = `../Websocket/Code/${userID}`;
-    
+
     if (!fs.existsSync(tempFileDir)) {
         // If it doesn't exist, create the directory
         fs.mkdirSync(tempFileDir, { recursive: true });
@@ -57,7 +57,7 @@ router.post('/runcode', async (req, res) => {
     });
 });
 
-router.get('/get-userID', (req,res) =>{
+router.get('/get-userID', (req, res) => {
     res.send(req.session.userID).status(200);
 });
 
@@ -67,8 +67,11 @@ router.post('/upload', async (req, res) => {
         // Get data from the request body
         const instructorName = req.body.instructorName;
         const uploadData = req.body.uploadData;
-        console.log(instructorName);
-        console.log(uploadData);
+        const userID = req.session.user.uniqueID;
+        const timestamp = req.body.formattedDateTime;
+
+        //console.log(instructorName);
+        //console.log(uploadData);
 
         // Find the instructor by username
         const instructor = await User.findOne({ username: instructorName });
@@ -78,15 +81,21 @@ router.post('/upload', async (req, res) => {
         }
 
         // Check if the current user is a student
-        if (req.session.accountType !== 'student') {
-            return res.status(403).json({ message: 'Only students can upload for instructors.' });
+        if (instructor.accountType === 'student') {
+            return res.status(403).json({ message: 'Can Only Upload to Instructors.' });
         }
 
         // Add upload data to the instructor's userUploads array
-        if (!instructor.userUploads) {
-            instructor.userUploads = []; // Initialize userUploads if it's undefined
-        }
-        instructor.userUploads.push(uploadData);
+        const usersUploadData = {
+            userdata: uploadData,
+            timestamp: timestamp,
+            uniqueID: userID,
+        };
+
+        instructor.userUploads.push(usersUploadData);
+
+        console.log(`\nLast upload Time Stamp: ${usersUploadData.timestamp}\n`); // Access timestamp from uploadData object
+
         await instructor.save();
 
         return res.status(200).json({ message: 'Upload successful.' });

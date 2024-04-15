@@ -158,7 +158,7 @@ async function getUserID() {
     if (!response.ok) {
       throw new Error('Failed to fetch userID');
     }
-    const userID = await response.text(); 
+    const userID = await response.text();
     return userID;
   } catch (error) {
     console.error('Error fetching userID:', error);
@@ -180,7 +180,7 @@ if (window.location.pathname === '/editor') {
   //if student do this 
   textfromDb()
   //if instructor do something else
-  
+
   //document.getElementById('runButton').addEventListener('click', runjava);
   //setInterval(textfromDb,5000); TESTING
 
@@ -199,40 +199,70 @@ if (window.location.pathname === '/editor') {
   });
   document.getElementById('submit').addEventListener('click', async () => {
     try {
-        const instructorNameInput = document.getElementById('instructorNameInput');
-        const instructorName = instructorNameInput.value.trim(); // Get the value of the input field
-        console.log(`Instructor Name: ${instructorName}`);
+      const instructorNameInput = document.getElementById('instructorNameInput');
+      const instructorName = instructorNameInput.value.trim(); // Get the value of the input field
+      console.log(`Instructor Name: ${instructorName}`);
 
-        fetch('/users/current-user-data')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      fetch('/users/current-user-data')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(async userData => {
+          const uploadData = userData;
+          // Create a new Date object
+          var currentDate = new Date();
+
+          // Get the current hour, minute, second, month, day, and year
+          var hour = currentDate.getHours();
+          var minute = currentDate.getMinutes();
+          var second = currentDate.getSeconds();
+          var month = currentDate.getMonth() + 1; // January is 0, so add 1
+          var day = currentDate.getDate();
+          var year = currentDate.getFullYear();
+
+          // Add leading zeros to ensure two-digit format
+          hour = hour < 10 ? '0' + hour : hour;
+          minute = minute < 10 ? '0' + minute : minute;
+          second = second < 10 ? '0' + second : second;
+          month = month < 10 ? '0' + month : month;
+          day = day < 10 ? '0' + day : day;
+
+          // Format the date and time as a string
+          var formattedDateTime = hour + ":" + minute + ":" + second + " " + month + "/" + day + "/" + year;
+
+          //console.log("Current time and date:", formattedDateTime);
+
+         
+      const userID = await getUserID();
+      console.log(userID);
+      if (!userID) {
+        console.log('UserID not available');
       }
-      return response.text();
-    })
-    .then(async userData => {
-      //console.log('Current user data:', userData);
-      //If there is userdata in the database create a editor with the contents from the db
-      const uploadData = userData;
-        const response = await fetch('/editor/upload', {
+        
+
+          //upload the user data from the database to an instructor.
+          const response = await fetch('/editor/upload', {
             method: 'POST',
             headers: {
-      'Content-Type': 'application/json'
-    },
-            body: JSON.stringify({uploadData,instructorName})
-        });
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ uploadData, instructorName, formattedDateTime})
+          });
 
-        const data = await response.json();
-        alert(data.message); // Display success or error message
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+          const data = await response.json();
+          alert(data.message); // Display success or error message
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
     } catch (error) {
-        console.error(error);
-        alert('An error occurred. Please try again later.');
+      console.error(error);
+      alert('An error occurred. Please try again later.');
     }
-});
+  });
 
 
   start();
