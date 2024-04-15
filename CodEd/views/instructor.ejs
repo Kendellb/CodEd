@@ -23,9 +23,11 @@
     <button id="editor">Editor</button>
     <ul id="userList">
         <h2>User Uploads</h2>
-        <% userUploads.forEach(upload => { %>
+        <% userUploads.forEach((upload, index) => { %>
             <li>
-                <a href="http://localhost:3000/editor"><%= upload.uniqueID %></a>
+                <a href="http://localhost:3000/editor/studentSubmissonEditor?userID=<%= upload.uniqueID %>&index=<%= index %>">
+                    <%= upload.uniqueID %>
+                </a>
                 <span><%= upload.timestamp %></span>
             </li>
         <% }); %>

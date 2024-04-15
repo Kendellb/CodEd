@@ -57,8 +57,52 @@ router.post('/runcode', async (req, res) => {
     });
 });
 
+router.post('/runcodeUpload', async (req, res) => {
+    const javaCode = req.body.code;
+    const userID = req.session.user.uniqueID;
+    //console.log("USERID:",userID);
+    const submissionUserID = req.query.userID;
+    console.log("USERID:",submissionUserID);
+
+    const tempFilePath = `../Websocket/Code/${submissionUserID}/Main.java`;
+    const tempFileDir = `../Websocket/Code/${submissionUserID}`;
+
+    if (!fs.existsSync(tempFileDir)) {
+        // If it doesn't exist, create the directory
+        fs.mkdirSync(tempFileDir, { recursive: true });
+        //console.log(`Directory '${tempFileDir}' created successfully.`);
+    } else {
+        //console.log(`Directory '${tempFileDir}' already exists.`);
+    }
+
+    fs.writeFile(tempFilePath, javaCode, (err) => {
+        if (err) {
+            console.error('Error saving Java code:', err);
+            return res.status(500).send('Error saving Java code');
+        }
+
+        console.log(`Java code saved to ${tempFilePath}`);
+        res.status(200).send('Java code saved successfully');
+    });
+});
+
 router.get('/get-userID', (req, res) => {
     res.send(req.session.userID).status(200);
+});
+
+router.get('/get-uploadID', (req, res) => {
+    const sessionUserID = req.session.userID;
+    const queryUserID = req.query.userID;
+    console.log("query:",queryUserID);
+    const combinedUserID = sessionUserID + ' ' + queryUserID;
+
+    res.status(200).send(combinedUserID);
+});
+
+router.get('/index', (req,res) => {
+    const index = req.query.index;
+    console.log("MEMEMEME",index);
+    res.status(200).send(index);
 });
 
 // Route to handle the upload operation
@@ -102,6 +146,24 @@ router.post('/upload', async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
+router.get('/studentSubmissonEditor', async function (req, res, next) {
+    //res.render('codeEditor', { title: 'Express' });
+    // Retrieve the session user
+    const sessionUser = req.session.user;
+    console.log(sessionUser);
+    const sessionUsername = req.session.username;
+    const sessionAccountType = req.session.accountType;
+    const userID = req.query.userID;
+    console.log(userID);
+
+    if (sessionAccountType === 'instructor') {
+        //User is logged in, you can use sessionUser here
+        res.render('studentSubmissonEditor', { user: sessionUser, username: sessionUsername, userID: userID });
+    } else {
+        res.send("Have to be an instructor");
     }
 });
 

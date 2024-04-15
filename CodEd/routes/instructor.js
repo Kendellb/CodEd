@@ -13,8 +13,14 @@ router.get('/', async function(req, res, next) {
       return res.status(404).send("Instructor not found");
   }
 
-  // Render the instructor.ejs template with instructor's data
-  res.render('instructor', { username: instructor.username, userUploads: instructor.userUploads });
+  const userUploadsIndex = instructor.userUploads.findIndex(upload => upload.uniqueID === userID);
+        
+        // Render the instructor.ejs template with instructor's data and the userUploadsIndex
+        res.render('instructor', { 
+            username: instructor.username, 
+            userUploads: instructor.userUploads,
+            userUploadsIndex: userUploadsIndex 
+        });
 } catch (err) {
   console.error(err);
   res.status(500).send("Server Error");

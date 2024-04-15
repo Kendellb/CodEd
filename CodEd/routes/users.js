@@ -115,10 +115,10 @@ router.get('/current-user-data', (req, res) => {
   }
 
   // Get the current user's ID from the session
-  const userId = req.session.user;
+  const userID = req.session.user;
 
   // Fetch user data using the User model
-  User.findById(userId)
+  User.findById(userID)
     .then(user => {
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -130,6 +130,48 @@ router.get('/current-user-data', (req, res) => {
       //console.error('Error fetching user:', error);
       res.status(500).json({ error: 'Internal server error' });
     });
+});
+
+router.get('/upload-data', async (req,res) =>{
+   // Check if user is authenticated
+   if (!req.session || !req.session.user) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
+
+  // Get the current user's ID from the session
+  const userID = req.session.user;
+
+  try {
+    // Fetch instructor data using the User model
+    const instructor = await User.findById(userID);
+    
+    // Check if the instructor exists
+    if (!instructor) {
+      return res.status(404).json({ error: 'Instructor not found' });
+    }
+    if(instructor.accountType === 'student'){
+      return res.status(500).json({error: "Only Instructos can use this method"});
+    }
+
+    // Retrieve the index from the query string
+    const index = parseInt(req.query.index);
+    console.log(`index: ${index}`);
+
+    // Check if the index is valid
+    if (isNaN(index) || index < 0 || index >= instructor.userUploads.length) {
+      return res.status(400).json({ error: 'Invalid index' });
+  }
+  
+
+    // Retrieve user data based on the index
+    const userData = instructor.userUploads[index].userdata;
+
+    // Send the user data
+    res.status(200).send(userData);
+  } catch (error) {
+    console.error('Error fetching instructor:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 

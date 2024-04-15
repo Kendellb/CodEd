@@ -86,6 +86,35 @@ async function sendStartJavaProcessMessage(userId) {
   }
 }
 
+async function sendStartJavaProcessMessageUpload(userID,index) {
+  try {
+     const url = `/users/upload-data?index=${index}`;
+    const uploadDataResponse = await fetch(url);
+    if (!uploadDataResponse.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const javaCode = await uploadDataResponse.text();
+
+    const response = await fetch(`/editor/runcodeUpload?userID=${userID}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ code: javaCode})
+    });
+
+    const container = document.getElementById("terminal-container");
+
+    socket.send(JSON.stringify({ action: 'startJavaProcess', userId: userID}));
+
+    if (!response.ok) {
+      throw new Error('Failed to execute Java code');
+    }
+  } catch (error) {
+    console.error('Error executing Java code:', error);
+  }
+}
+
 
 /**
  * Function to handle click event of the save button.
@@ -152,6 +181,32 @@ async function textfromDb() {
     });
 }
 
+async function textfromDbUpload(index) {
+  // Construct the URL with the index as a query parameter
+  const url = `/users/upload-data?index=${index}`;
+
+  fetch(url)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.text();
+      })
+      .then(uploadData => {
+          // If there is uploadData in the database, create an editor with the contents from the database
+          if (uploadData) {
+              const editor = new Editor(
+                  document.querySelector('#editor'),
+                  uploadData
+              );
+          }
+      })
+      .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+      });
+}
+
+
 async function getUserID() {
   try {
     const response = await fetch('/editor/get-userID');
@@ -159,6 +214,25 @@ async function getUserID() {
       throw new Error('Failed to fetch userID');
     }
     const userID = await response.text();
+    return userID;
+  } catch (error) {
+    console.error('Error fetching userID:', error);
+    return null;
+  }
+}
+
+async function getUploadUserID() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIDfromquery = urlParams.get('userID');
+
+    // Fetch the data including the userID
+    const response = await fetch(`/editor/get-uploadID?userID=${userIDfromquery}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch userID');
+    }
+    const userID = await response.text();
+    console.log("USERID",userID);
     return userID;
   } catch (error) {
     console.error('Error fetching userID:', error);
@@ -178,7 +252,8 @@ if (window.location.pathname === '/editor') {
   //Initial call to check if there is code in the database 
   //see function for more details
   //if student do this 
-  textfromDb()
+  textfromDb();
+  start();
   //if instructor do something else
 
   //document.getElementById('runButton').addEventListener('click', runjava);
@@ -265,9 +340,47 @@ if (window.location.pathname === '/editor') {
   });
 
 
-  start();
+
 
 }
+
+async function getIndexFromServer() {
+  try {
+    // Make fetch request to /index route
+    const response = await fetch('/index');
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch index');
+    }
+
+    // Parse response text as JSON
+    const index = await response.text();
+    return index;
+  } catch (error) {
+    console.error('Error fetching index:', error);
+    return null;
+  }
+}
+
+if (window.location.pathname === '/editor/studentSubmissonEditor') {
+  start();
+  textfromDbUpload(0);
+
+   document.getElementById('runButton').addEventListener('click', async () => {
+    try {
+      const userID = await getUploadUserID();
+      if (userID) {
+        sendStartJavaProcessMessageUpload(userID,0);
+      } else {
+        console.log('UserID not available');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+}
+
+
 
 //TO DO 
 //Get the userID from the session.
