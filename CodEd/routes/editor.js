@@ -64,7 +64,7 @@ router.post('/runcodeUpload', async (req, res) => {
     const userID = req.session.user.uniqueID;
     //console.log("USERID:",userID);
     const submissionUserID = req.query.userID;
-    console.log("USERID:",submissionUserID);
+    console.log("USERID:", submissionUserID);
 
     const tempFilePath = `../Websocket/Code/${submissionUserID}/Main.java`;
     const tempFileDir = `../Websocket/Code/${submissionUserID}`;
@@ -95,13 +95,13 @@ router.get('/get-userID', (req, res) => {
 router.get('/get-uploadID', (req, res) => {
     const sessionUserID = req.session.userID;
     const queryUserID = req.query.userID;
-    console.log("query:",queryUserID);
+    console.log("query:", queryUserID);
     const combinedUserID = sessionUserID + ' ' + queryUserID;
 
     res.status(200).send(combinedUserID);
 });
 
-router.get('/index', (req,res) => {
+router.get('/index', (req, res) => {
     const index = req.query.index;
     res.status(200).send(index);
 });
@@ -137,7 +137,18 @@ router.post('/upload', async (req, res) => {
             uniqueID: userID,
         };
 
-        instructor.userUploads.push(usersUploadData);
+
+        instructor.userUploads.forEach((item, i) => {
+            if (item.uniqueID === usersUploadData.uniqueID) {
+                // If uniqueID already exists, replace the data at that index
+                instructor.userUploads[i] = usersUploadData;
+            }
+            else{
+                // If uniqueID doesnt exist pust to the array
+                instructor.userUploads.push(usersUploadData);
+            }
+        });
+        
 
         console.log(`\nLast upload Time Stamp: ${usersUploadData.timestamp}\n`); // Access timestamp from uploadData object
 
