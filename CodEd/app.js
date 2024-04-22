@@ -46,10 +46,21 @@ app.use('/editor', editorRouter);
 app.post('/login',usersRouter);
 app.post('/register',usersRouter);
 
+const isTesting = process.env.NODE_ENV === 'test';
+
+let dbName = 'CodEd'; // Default dbName
+
+if (isTesting) {
+    //console.log("TESTSTSING");
+    dbName = 'testing'; // Set a different dbName for testing
+}
+
+
 //connecting to MongoDB
 mongoose.connect(uri,{
 useNewUrlParser: true,
   useUnifiedTopology: true,
+  dbName: dbName
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err.message));

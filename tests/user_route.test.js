@@ -20,21 +20,21 @@ describe('User Routes Test', () => {
             const username = `test_user${generateRandomHex(100)}`
             const response = await request
                 .post('/users/register')
-                .send({ username });
+                .send({ username, accountType: "student" });
 
             expect(response.status).toBe(302);
             expect(response.header.location).toBe('/users/login');
         });
 
         test('400 Failed register - should return error if username already exists', async () => {
-            const existingUser = await User.findOne({ username: 'testuser' });
+            const existingUser = await User.findOne({ username: 'testuser', accountType: "student"});
             if (!existingUser) {
-                await new User({ username: 'testuser' }).save();
+                await new User({ username: 'testuser' , accountType: "student" }).save();
             }
 
             const response = await request
                 .post('/users/register')
-                .send({ username: 'testuser' });
+                .send({ username: 'testuser' , accountType: "student"  });
 
             expect(response.status).toBe(400);
             expect(response.text).toBe('Username already exists');
@@ -47,12 +47,12 @@ describe('User Routes Test', () => {
         test('302 Success login - should redirect to /editor', async () => {
                const existingUser = await User.findOne({ username: 'kendell' });
             if (existingUser) {
-                await new User({ username: 'kendell' }).save();
+                await new User({ username: 'kendell' , accountType: "student"  }).save();
             
 
             const response = await request
                 .post('/users/login')
-                .send({ username: 'kendell' });
+                .send({ username: 'kendell' , accountType: "student"  });
 
                 //console.log(response);
                 expect(response.status).toBe(302);

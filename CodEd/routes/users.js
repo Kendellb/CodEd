@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 //POST for register a user 
 router.post('/register', async function(req,res){
   try {
-    const { username } = req.body;
+    const { username, accountType } = req.body;
 
 
     const existingUser = await User.findOne({ username });
@@ -30,7 +30,7 @@ router.post('/register', async function(req,res){
     }
     else{
 
-    const newUser = new User({ username });
+    const newUser = new User({ username,accountType });
 
     await newUser.save();
 
@@ -63,7 +63,13 @@ router.post('/login', async (req, res) => {
           req.session.user = foundUser;
           req.session.username = foundUser.username;
           req.session.userID = foundUser.uniqueID;
+          if(foundUser.accountType === 'student'){
           res.status(201).redirect('/editor');
+          }
+          if(foundUser.accountType === 'instructor' ){
+            //res.status(201).redirect('/instructor');
+            res.send("Instructor View");
+          }
       } else {
           res.status(400).send("Invalid username");
       }

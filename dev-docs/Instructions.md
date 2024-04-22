@@ -20,17 +20,29 @@ npm install -g jsdoc
 
 # Running the server
 
--Open a Node.js command prompt
+- Open a Node.js command prompt
 
--Cd into the the CodEd fodler
+- Cd into the the CodEd folder
 
--Execute `npm install` to install all required packages
+- Execute `npm install` to install all required packages
 
--Execute `npm start` to start the web server
+- Execute `npm start` to start the web server
 
--Execute `npm fund` 
+- Execute `npm fund` 
 
--In a browser, visit [http://localhost:3000/](http://localhost:3000/) to verify that the server is running
+- Next open a new terminal (in Vscode hit terminal in the top left next to help)
+
+- Then cd into the root of the project
+
+- Next cd into the `Websocket` folder
+
+- Execute `npm install` to install all required packages
+
+- Execute `npm start` to start the web server
+
+- Execute `npm fund` 
+
+- In a browser, visit [http://localhost:3000/](http://localhost:3000/) to verify that the server is running
 
 # Stopping the server
 
@@ -39,10 +51,20 @@ At the command line where the server was started, enter Ctrl-C to stop the serve
 # Running tests
 - First cd into the tests folder and execute `npm install` and `npm fund`
 - Next cd into the CodEd folder by first going back to the root.
-- Then start the node server [See above](https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/blob/1.5-As-a-User-I-want-to-have-syntax-highlighting-for-my-Java-code/dev-docs/Instructions.md#running-the-server)
+- Start server using `NODE_ENV=test npm start`
+- Next open a new terminal (in Vscode hit terminal in the top left next to help).
+
+- Then cd into the root of the project
+
+- Next cd into the `Websocket` folder
+
+- Execute `npm install` to install all required packages
+
+- Execute `npm start` to start the web server
+
 - Then open a new terminal (in Vscode hit terminal in the top left next to help)
 - Next cd into the root of the project
-- Finally Execute
+- Finally Execute:
   ```
   jest --coverage test
   ```
