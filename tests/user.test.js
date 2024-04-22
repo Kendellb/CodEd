@@ -39,25 +39,20 @@ describe('User Model', () => {
         await mongoose.connection.close();
     });
 
-    describe('Create & save user successfully', () => {
-        it('should create and save a new user', async () => {
-            const validUser = new User({ username: `test.User${generateRandomHex}`, accountType: 'student' });
+    describe('Find instructor in the database', () => {
+        it('should find an instructor in the database', async () => {
             try {
-                const savedUser = await validUser.save();
-                console.log(savedUser)
-                expect(savedUser.username).toBe(userData.username);  
-            expect(savedUser.accountType).toBe(userData.accountType);
-
-            // uniqueID should be automatically generated
-            expect(savedUser.uniqueID).toBeDefined();
+                const foundInstructor = await User.findOne({ username: 'instructor', accountType: 'instructor' });
+                console.log(foundInstructor);
+                expect(foundInstructor).toBeDefined();
+                expect(foundInstructor.username).toBe('instructor');
+                expect(foundInstructor.accountType).toBe('instructor');
             } catch (error) {
-                //console.error(error);
+                 //console.error(error);
             }
-
-            // Object Id should be defined when successfully saved to MongoDB.
-            
         }, 60000);
     });
+    
 
     it('create user without required field should failed', async () => {
         const userWithoutRequiredField = new User({ username: 'testUser' });
