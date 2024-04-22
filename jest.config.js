@@ -27,11 +27,8 @@ const config = {
     "**/routes/*.js",
     "**/public/javascripts/*{.js,.mjs}",
     '!**/node_modules/**',
-    "!**/public/javascripts/*.bundle.js",
-    "!**/public/javascripts/rollup.config.mjs",
-    "!**/public/javascripts/homepage.js",
+    "!**/public/**",
     "!**/model/editorModule.js",
-    "!**/public/javascripts/editor.mjs",
     "!**/model/terminalUI.js",
   ],
 
