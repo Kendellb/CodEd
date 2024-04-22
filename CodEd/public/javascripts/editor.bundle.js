@@ -31378,6 +31378,7 @@
 	  textfromDb();
 	  start();
 	  //if instructor do something else
+
 	  //document.getElementById('runButton').addEventListener('click', runjava);
 	  //setInterval(textfromDb,5000); TESTING
 
