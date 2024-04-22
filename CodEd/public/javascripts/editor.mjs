@@ -177,7 +177,10 @@ if (window.location.pathname === '/editor') {
   document.getElementById('saveButton').addEventListener('click', saveButtonEvent)
   //Initial call to check if there is code in the database 
   //see function for more details
+  //if student do this 
   textfromDb()
+  //if instructor do something else
+  
   //document.getElementById('runButton').addEventListener('click', runjava);
   //setInterval(textfromDb,5000); TESTING
 
