@@ -22,7 +22,7 @@ npm install -g jsdoc
 
 -Open a Node.js command prompt
 
--Cd into the the CodEd fodler
+-Cd into the the CodEd folder
 
 -Execute `npm install` to install all required packages
 
@@ -39,7 +39,7 @@ At the command line where the server was started, enter Ctrl-C to stop the serve
 # Running tests
 - First cd into the tests folder and execute `npm install` and `npm fund`
 - Next cd into the CodEd folder by first going back to the root.
-- Then start the node server [See above](https://github.com/Duquesne-Spring-2024-COSC-481/Kendell-Barry/blob/1.5-As-a-User-I-want-to-have-syntax-highlighting-for-my-Java-code/dev-docs/Instructions.md#running-the-server)
+- Start server using `NODE_ENV=test npm start`
 - Then open a new terminal (in Vscode hit terminal in the top left next to help)
 - Next cd into the root of the project
 - Finally Execute
