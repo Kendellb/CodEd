@@ -137,17 +137,21 @@ router.post('/upload', async (req, res) => {
             uniqueID: userID,
         };
 
-
+        let userExists = false;
         instructor.userUploads.forEach((item, i) => {
             if (item.uniqueID === usersUploadData.uniqueID) {
                 // If uniqueID already exists, replace the data at that index
                 instructor.userUploads[i] = usersUploadData;
-            }
-            else{
-                // If uniqueID doesnt exist pust to the array
-                instructor.userUploads.push(usersUploadData);
+                console.log("USER EXISTS",item);
+                userExists = true;
+                return;
             }
         });
+        if(!userExists){
+            // If uniqueID doesnt exist pust to the array
+            instructor.userUploads.push(usersUploadData);
+            console.log("USER DOESNT EXIT");
+        }
         
 
         console.log(`\nLast upload Time Stamp: ${usersUploadData.timestamp}\n`); // Access timestamp from uploadData object
