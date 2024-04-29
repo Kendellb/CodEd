@@ -47,11 +47,11 @@ router.post('/register', async function(req,res){
 })
 
 router.get('/register', function(req, res, next) {
-  res.render('register');
+  res.render('register').status(200);
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  res.render('login').status(200);
 });
 
 //POST used to login set the session to the username and then redirect to the code window

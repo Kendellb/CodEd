@@ -87,3 +87,27 @@ describe('User Routes Test', () => {
         });
     });
 });
+
+describe('GET /register', function() {
+    it('responds with status 200 and renders the register page', function(done) {
+      supertest(app)
+        .get('/users/register')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  describe('GET /login', function() {
+    it('responds with status 200 and renders the login page', function(done) {
+      supertest(app)
+        .get('/users/login')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
