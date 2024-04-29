@@ -1,13 +1,26 @@
+/**
+ * Express router module for handling routes related to the home page.
+ */
+
 var express = require('express');
 var router = express.Router();
 var User = require('../model/user');
 
-
-/* GET home page. */
+/**
+ * Route for rendering the home page.
+ * @name GET_home_page
+ * @route {GET} /
+ * @async
+ * @function
+ * @memberof module:routes/index
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 router.get('/', async function (req, res, next) {
   const userID = req.session.user.uniqueID;
   const sessionUser = req.session.user;
-  //console.log('userID',userID);
+
   if (sessionUser.accountType === 'instructor') {
     try {
       const instructor = await User.findOne({ uniqueID: userID });

@@ -1,9 +1,18 @@
+/**
+ * Express router module for handling routes related to code editing and submission.
+ */
+
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var session = require('express-session');
 var User = require('../model/user');
 
+/**
+ * Express session middleware.
+ * @name sessionMiddleware
+ * @memberof module:routes/codeEditor
+ */
 router.use(session({
     secret: 'secret', //unsecure change later.
     resave: false,
@@ -11,28 +20,44 @@ router.use(session({
     cookie: { maxAge: 3600000 }
 }));
 
-/* GET home page. */
+/**
+ * Route for rendering the home page.
+ * @name GET_home_page
+ * @route {GET} /
+ * @async
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 router.get('/', async function (req, res, next) {
-    //res.render('codeEditor', { title: 'Express' });
     // Retrieve the session user
     const sessionUser = req.session.user;
     const sessionUsername = req.session.username;
     const UserID = req.session.uniqueID;
     const sessionAccountType = req.session.accountType;
-    //console.log("EDITOR SESSION: ", sessionUser);
-    //res.render('codeEditor', { user: sessionUser });
 
-    const instructors = await User.find({ accountType: 'instructor' }, 'username'); // Filter users by accountType
+    const instructors = await User.find({ accountType: 'instructor' }, 'username');
+
     if (sessionUser) {
-        //User is logged in, you can use sessionUser here
+        //User is logged in
         res.render('codeEditor', { user: sessionUser, username: sessionUsername, accountType: sessionAccountType, instructors: instructors });
     } else {
         res.redirect('/users/login');
     }
 });
 
-
-
+/**
+ * Route for saving Java code to a file.
+ * @name POST_runcode
+ * @route {POST} /runcode
+ * @async
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.post('/runcode', async (req, res) => {
     const javaCode = req.body.code;
     const userID = req.session.user.uniqueID;
@@ -41,11 +66,7 @@ router.post('/runcode', async (req, res) => {
     const tempFileDir = `../Websocket/Code/${userID}`;
 
     if (!fs.existsSync(tempFileDir)) {
-        // If it doesn't exist, create the directory
         fs.mkdirSync(tempFileDir, { recursive: true });
-        //console.log(`Directory '${tempFileDir}' created successfully.`);
-    } else {
-        //console.log(`Directory '${tempFileDir}' already exists.`);
     }
 
     fs.writeFile(tempFilePath, javaCode, (err) => {
@@ -59,22 +80,26 @@ router.post('/runcode', async (req, res) => {
     });
 });
 
+/**
+ * Route for saving uploaded Java code to a file.
+ * @name POST_runcodeUpload
+ * @route {POST} /runcodeUpload
+ * @async
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.post('/runcodeUpload', async (req, res) => {
     const javaCode = req.body.code;
     const userID = req.session.user.uniqueID;
-    //console.log("USERID:",userID);
     const submissionUserID = req.query.userID;
-    console.log("USERID:", submissionUserID);
 
     const tempFilePath = `../Websocket/Code/${submissionUserID}/Main.java`;
     const tempFileDir = `../Websocket/Code/${submissionUserID}`;
 
     if (!fs.existsSync(tempFileDir)) {
-        // If it doesn't exist, create the directory
         fs.mkdirSync(tempFileDir, { recursive: true });
-        //console.log(`Directory '${tempFileDir}' created successfully.`);
-    } else {
-        //console.log(`Directory '${tempFileDir}' already exists.`);
     }
 
     fs.writeFile(tempFilePath, javaCode, (err) => {
@@ -88,25 +113,60 @@ router.post('/runcodeUpload', async (req, res) => {
     });
 });
 
+/**
+ * Route for getting the user ID from the session.
+ * @name GET_get-userID
+ * @route {GET} /get-userID
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.get('/get-userID', (req, res) => {
     res.send(req.session.userID).status(200);
 });
 
+/**
+ * Route for getting the combined user ID.
+ * @name GET_get-uploadID
+ * @route {GET} /get-uploadID
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.get('/get-uploadID', (req, res) => {
     const sessionUserID = req.session.userID;
     const queryUserID = req.query.userID;
-    console.log("query:", queryUserID);
     const combinedUserID = sessionUserID + ' ' + queryUserID;
 
     res.status(200).send(combinedUserID);
 });
 
+/**
+ * Route for getting the index.
+ * @name GET_index
+ * @route {GET} /index
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.get('/index', (req, res) => {
     const index = req.query.index;
     res.status(200).send(index);
 });
 
-// Route to handle the upload operation
+/**
+ * Route for handling the upload operation.
+ * @name POST_upload
+ * @route {POST} /upload
+ * @async
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 router.post('/upload', async (req, res) => {
     try {
         // Get data from the request body
@@ -114,9 +174,6 @@ router.post('/upload', async (req, res) => {
         const uploadData = req.body.uploadData;
         const userID = req.session.user.uniqueID;
         const timestamp = req.body.formattedDateTime;
-
-        //console.log(instructorName);
-        //console.log(uploadData);
 
         // Find the instructor by username
         const instructor = await User.findOne({ username: instructorName });
@@ -142,20 +199,15 @@ router.post('/upload', async (req, res) => {
             if (item.uniqueID === usersUploadData.uniqueID) {
                 // If uniqueID already exists, replace the data at that index
                 instructor.userUploads[i] = usersUploadData;
-                console.log("USER EXISTS",item);
                 userExists = true;
                 return;
             }
         });
         if(!userExists){
-            // If uniqueID doesnt exist pust to the array
+            // If uniqueID doesn't exist push to the array
             instructor.userUploads.push(usersUploadData);
-            console.log("USER DOESNT EXIT");
         }
         
-
-        console.log(`\nLast upload Time Stamp: ${usersUploadData.timestamp}\n`); // Access timestamp from uploadData object
-
         await instructor.save();
 
         return res.status(200).json({ message: 'Upload successful.' });
@@ -165,25 +217,28 @@ router.post('/upload', async (req, res) => {
     }
 });
 
+/**
+ * Route for rendering the student submission editor page.
+ * @name GET_studentSubmissionEditor
+ * @route {GET} /studentSubmissonEditor
+ * @async
+ * @function
+ * @memberof module:routes/codeEditor
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 router.get('/studentSubmissonEditor', async function (req, res, next) {
-    //res.render('codeEditor', { title: 'Express' });
-    // Retrieve the session user
     const sessionUser = req.session.user;
-    //console.log(sessionUser);
     const sessionUsername = req.session.username;
     const sessionAccountType = req.session.accountType;
     const userID = req.query.userID;
-    //console.log(userID);
 
     if (sessionAccountType === 'instructor') {
-        //User is logged in, you can use sessionUser here
         res.render('studentSubmissonEditor', { user: sessionUser, username: sessionUsername, userID: userID });
     } else {
         res.send("Have to be an instructor");
     }
 });
-
-
-
 
 module.exports = router;
