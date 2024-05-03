@@ -1,0 +1,24 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #7700d9;
+    margin: 5px 0;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Styling logo */
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+  

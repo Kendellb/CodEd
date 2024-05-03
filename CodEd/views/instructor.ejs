@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/instructor.css">
     <title>CodEd</title>
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
 </head>
 
 <header>
@@ -23,21 +24,17 @@
     <button id="editor">Editor</button>
     <ul id="userList">
         <h2>User Uploads</h2>
-        <ul id="userList">
+        <% userUploads.forEach((upload, index)=> { %>
             <li>
-                <a href="http://localhost:3000/editor">User ID 1</a>
-                <span>April 10, 2024</span>
+                <a
+                    href="http://localhost:3000/editor/studentSubmissonEditor?userID=<%= upload.uniqueID %>&index=<%= index %>">
+                    <%= upload.uniqueID %>
+                </a>
+                <span>
+                    <%= upload.timestamp %>
+                </span>
             </li>
-            <li>
-                <a href="http://localhost:3000/editor">User ID 2</a>
-                <span>March 25, 2024</span>
-            </li>
-            <li>
-                <a href="http://localhost:3000/editor">User ID 3</a>
-                <span>February 18, 2024</span>
-            </li>
-        </ul>
-
+            <% }); %>
     </ul>
 
     <script src="/javascripts/goToEditor.js"></script>

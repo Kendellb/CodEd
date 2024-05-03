@@ -27,7 +27,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['student', 'instructor'],
         required: true
-    }
+    },
+    userUploads: [{
+        userdata: {
+            type: String,
+            required: true
+        },
+        timestamp: {
+            type: Date,
+        },
+        uniqueID: {
+            type: String,
+            required: true,
+        }
+    }]
 });
 
 /**
@@ -42,6 +55,17 @@ userSchema.pre('save', function (next) {
     }
     next();
 });
+
+userSchema.pre('save', function(next) {
+    if (this.accountType === 'instructor') {
+        this.userUploads = this.userUploads || []; // Ensure userUploads is initialized as an array
+    }
+    next();
+});
+
+// Set the select option on the schema directly
+userSchema.set('toObject', { select: { userUploads: false } });
+userSchema.set('toJSON', { select: { userUploads: false } });
 
 const User = mongoose.model('User', userSchema);
 
