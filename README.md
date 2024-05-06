@@ -10,3 +10,5 @@ CodEd is a versatile platform designed for students to seamlessly complete codin
 - **Submission and Grading:** After finishing their assignments, students can submit their coding projects to the professor through CodEd. Professors have the ability to review and grade each student's code within the platform.
 
 - **Experimentation:** In addition to assignment submissions, CodEd allows students to experiment with code quickly through the web. This feature encourages exploration and hands-on learning.
+
+Instructions in dev-docs folder.
