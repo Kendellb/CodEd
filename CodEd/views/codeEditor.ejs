@@ -37,9 +37,13 @@
   </div>
   <div class="editor-container">
     <div id="editor" autofocus>
+         <form action="/editor/fileUpload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput">
+            <button id="fileUploadButton">Upload</button>
+        </form>
       <!-- code editor goes here  -->
     </div>
-    <div id="terminal-container">
+       <div id="terminal-container">
     </div>
   </div>
 

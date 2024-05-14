@@ -6,6 +6,8 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var session = require('express-session');
+const multer = require('multer');
+const path = require('path');
 var User = require('../model/user');
 
 /**
@@ -215,6 +217,38 @@ router.post('/upload', async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error.' });
     }
+});
+
+// Define the Multer storage configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // Check if session user and uniqueID exist
+        if (req.session && req.session.user && req.session.user.uniqueID) {
+            const userID = req.session.user.uniqueID;
+            // Construct the destination directory based on userID
+            const uploadDir = path.join(__dirname, '..', '..', 'Websocket', 'Code', userID);
+            cb(null, uploadDir);
+        } else {
+            // If user ID is not available, return an error
+            cb(new Error('User ID not found in session.'));
+        }
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); 
+    }
+});
+
+// Set up multer with the defined storage configuration
+const upload = multer({ storage: storage });
+
+// POST route for file upload
+router.post('/fileUpload', upload.single('file'), (req, res) => {
+    // Check if a file was uploaded
+    if (!req.file) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    // File uploaded successfully
+    res.send('File uploaded successfully.');
 });
 
 /**
