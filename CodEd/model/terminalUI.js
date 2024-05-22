@@ -10,7 +10,12 @@ export class TerminalUI {
    */
   constructor(socket) {
     /** @type {Terminal} */
-    this.terminal = new Terminal();
+    this.terminal = new Terminal({
+        theme: {
+             background: '#232634',
+             color: '#c6d0f5',
+        }
+    });
     /** @type {SocketIO.Socket} */
     this.socket = socket;
   }

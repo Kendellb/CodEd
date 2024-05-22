@@ -21,7 +21,41 @@ import {
 import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+import {createTheme} from '@uiw/codemirror-themes';
+import { tags as t } from '@lezer/highlight';
 
+
+const catppuccinFrappe = createTheme({
+      theme: 'dark',
+  settings: {
+    background: '#303446',
+    backgroundImage: '',
+    foreground: '#c6d0f5',
+    caret: '#5d00ff',
+    selection: '#626880',
+    selectionMatch: '#036dd626',
+    lineHighlight: '#8a91991a',
+    gutterBorder: '1px solid #303446',
+    gutterBackground: '#303446',
+    gutterForeground: '#a5adce',
+  },
+  styles: [
+    { tag: t.comment, color: '#737994' },
+    { tag: t.variableName, color: '#e5c890' },
+    { tag: [t.string, t.special(t.brace)], color: '#a6d189' },
+    { tag: t.number, color: '#ef9f76' },
+    { tag: t.bool, color: '#5c6166' },
+    { tag: t.null, color: '#5c6166' },
+    { tag: t.keyword, color: '#ca9ee6' },
+    { tag: t.operator, color: '#99d1db' },
+    { tag: t.className, color: '#e78284' },
+    { tag: t.definition(t.typeName), color: '#8caaee' },
+    { tag: t.typeName, color: '#ea999c' },
+    { tag: t.angleBracket, color: '#5c6166' },
+    { tag: t.tagName, color: '#5c6166' },
+    { tag: t.attributeName, color: '#8caaee' },
+  ],
+});
 
 /**
  * Creates language support for Java.
@@ -169,6 +203,7 @@ let extensions = [
   crosshairCursor(),
   highlightActiveLine(),
   javaLanguageSupport(),
+  catppuccinFrappe,  
 ]
 
 
